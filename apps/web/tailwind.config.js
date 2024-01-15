@@ -8,6 +8,13 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    colors: {
+      primary: '#580713',
+      secondary: '#8D0A1F',
+      success: '#2ecc71',
+      third: '#AF0B27',
+      fix: '#F6EEEA'
+    }
   },
   plugins: [
     // ...

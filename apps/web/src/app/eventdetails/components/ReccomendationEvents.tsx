@@ -3,11 +3,11 @@ import Image from 'next/image';
 import React from 'react';
 import { FiCalendar, FiMapPin } from 'react-icons/fi';
 
-const CardItemThisWeekend = () => {
+const ReccomendationEventsComp = () => {
   return (
-    <a href="/eventdetails">
-      <div className="md:w-[300px] w-[350px] bg-[#C8AA8E] rounded-2xl shadow-xl">
-        <div className="md:w-[300px] w-[350px] rounded-tl-2xl rounded-tr-2xl  relative h-[180px] overflow-hidden">
+    <div className="w-fit">
+      <div className="flex flex-wrap shadow-xl rounded-2xl ">
+        <div className="md:w-[300px] w-[300px] rounded-tl-2xl rounded-bl-2xl relative h-[210px] overflow-hidden">
           <Image
             src={'/images/herobg-min.jpg'}
             fill
@@ -15,17 +15,17 @@ const CardItemThisWeekend = () => {
             alt={'card event'}
           />
         </div>
-        <div className="px-3 mt-4">
+        <div className="p-2">
           <h1 className="font-semibold text-[20px]">Lorem, ipsum dolor.</h1>
           <p className="font-light mt-2">
             Lorem ipsum dolor sit amet consectetur .
           </p>
-          <div className="mt-3 flex justify-between flex-wrap">
+          <div className="mt-1 flex justify-between flex-wrap">
             <div className="grid grid-cols-2 gap-2">
-              <span className="text-[15px] bg-[#B45948] font-light bg-slate-500 rounded-lg px-2">
+              <span className="text-[15px] text-white font-medium bg-third rounded-lg px-3">
                 Music
               </span>
-              <span className="text-[15px] bg-[#B45948] font-light bg-slate-500 rounded-lg px-2">
+              <span className="text-[15px] text-white font-medium bg-third rounded-lg px-3">
                 Food
               </span>
             </div>
@@ -43,15 +43,15 @@ const CardItemThisWeekend = () => {
           <div className="mt-2 text-[15px]">
             <text>Event price</text>
           </div>
-          <div className="mt-3 pb-2">
+          <div className="mt-3">
             <text className="underline text-[15px] text-green-600">
-              View Deatails
+              View Details
             </text>
           </div>
         </div>
       </div>
-    </a>
+    </div>
   );
 };
 
-export default CardItemThisWeekend;
+export default ReccomendationEventsComp;

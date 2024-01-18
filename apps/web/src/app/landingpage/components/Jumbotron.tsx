@@ -1,11 +1,9 @@
-import { Button, Carousel, Select } from 'flowbite-react';
+import { Button, Carousel } from 'flowbite-react';
 import Image from 'next/image';
-import {
-  FiArrowLeft,
-  FiArrowRight,
-  FiArrowUpRight,
-  FiInbox,
-} from 'react-icons/fi';
+import { FiArrowLeft, FiArrowRight, FiArrowUpRight } from 'react-icons/fi';
+import { HiUserGroup } from 'react-icons/hi';
+import { IoGlobeOutline } from 'react-icons/io5';
+import { TbMoodCheck } from 'react-icons/tb';
 import Autocomplete from './Autocomplete';
 
 const Jumbotron = () => {
@@ -64,15 +62,15 @@ const Jumbotron = () => {
             Creating unforgettable experiences and turning every event into an
             extraordinary moment that will be remembered forever.
           </p>
-          <Button className="mt-[60px] bg-[#270C03]">
+          <Button className="mt-[60px] bg-[#DAAB6E]">
             Get Started
             <FiArrowUpRight />
           </Button>
         </div>
       </div>
-      <div className="z-50 absolute hidden md:block">
+      <div className="z-40 absolute hidden md:block">
         <div className="flex flex-wrap ml-[50px] mt-[-20px]">
-          <div className="w-[45px] h-[50px] pl-2 pt-4 border border-solid bg-slate-500 border-black">
+          <div className="w-[45px] h-[50px] pl-2 pt-4 border border-solid bg-[#DAAB6E] border-black">
             <FiArrowLeft />
           </div>
           <div className="w-[45px] h-[50px] pl-2 pt-4  border border-solid bg-[#9B9A79] border-black">
@@ -83,32 +81,32 @@ const Jumbotron = () => {
       <div className="grid md:grid-cols-3 mt-[30px] col-span-1 gap-3 md:ml-[100px] md:mr-[80px] ">
         <div className="box md:text-left text-center">
           <div className="flex md:justify-start justify-center">
-            <FiInbox size={50} />
+            <HiUserGroup size={50} />
           </div>
-          <text className="font-semibold"> Lorem, ipsum dolor.</text>
+          <text className="font-semibold">More than 500 ++ promoters.</text>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia ex
-            repellendus rem voluptatibus. Quam recusandae
+            Eventerss has registered more than 500 ++ promoters ready to create
+            unforgettable experiences
           </p>
         </div>
         <div className="box md:text-left text-center">
           <div className="flex md:justify-start justify-center">
-            <FiInbox size={50} />
+            <IoGlobeOutline size={50} />
           </div>
-          <text className="font-semibold"> Lorem, ipsum dolor.</text>
+          <text className="font-semibold">Eventerss are everywhere.</text>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia ex
-            repellendus rem voluptatibus. Quam recusandae
+            Eventerss provides events in various places that will always be
+            there for you
           </p>
         </div>
         <div className="box md:text-left text-center">
           <div className="flex md:justify-start justify-center">
-            <FiInbox size={50} />
+            <TbMoodCheck size={50} />
           </div>
-          <text className="font-semibold"> Lorem, ipsum dolor.</text>
+          <text className="font-semibold"> Good ratings from users.</text>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia ex
-            repellendus rem voluptatibus. Quam recusandae
+            eventerss has been an intermediary and issued more than 250++ events
+            and received satisfactory reviews from users
           </p>
         </div>
       </div>

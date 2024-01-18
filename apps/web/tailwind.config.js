@@ -13,6 +13,7 @@ module.exports = {
       secondary: '#8D0A1F',
       success: '#2ecc71',
       third: '#AF0B27',
+      fourth: '#ECDFCB',
       fix: '#F6EEEA'
     }
   },

@@ -26,13 +26,13 @@ const NavBarComp = () => {
         {user ? (
           <NavbarCollapse className="">
             <div className="flex flex-wrap gap-5 items-center">
-              <NavbarLink href="" active className="text-[15px]">
+              <NavbarLink href="/" active className="text-[15px]">
                 <text className="text-[#416067]">Home</text>
               </NavbarLink>
               <NavbarLink href="" active className="text-[15px]">
                 <text className="text-[#416067]">Find Events</text>
               </NavbarLink>
-              <NavbarLink href="" active className="text-[15px]">
+              <NavbarLink href="/addevent" active className="text-[15px]">
                 <text className="text-[#416067]">Create Events</text>
               </NavbarLink>
               <div className="text-[15px]">

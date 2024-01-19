@@ -1,10 +1,11 @@
-import { Button, ButtonGroup, ThemeModeScript } from 'flowbite-react';
-import Image from 'next/image';
+import LandingPage from "./landingpage/page";
 
 export default function Home() {
   return (
-    <main>
-      <div></div>
+    <main className=''>
+      <>
+      <LandingPage />
+      </>
     </main>
   );
 }

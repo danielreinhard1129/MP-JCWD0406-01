@@ -1,10 +1,11 @@
+import { Footer } from '@/components/Footer';
+import NavBar from '@/components/NavBar';
+import { ThemeModeScript } from 'flowbite-react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { ThemeModeScript } from 'flowbite-react';
 import StoreProvider from './StoreProvider';
+import './globals.css';
+import NavBarComp from '@/components/NavBar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <StoreProvider>
-          <Header />
+          <NavBarComp />
           {children}
           <Footer />
         </StoreProvider>

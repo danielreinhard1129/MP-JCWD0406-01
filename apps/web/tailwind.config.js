@@ -13,8 +13,9 @@ module.exports = {
       secondary: '#8D0A1F',
       success: '#2ecc71',
       third: '#AF0B27',
-      fix: '#F6EEEA',
-    },
+      fourth: '#ECDFCB',
+      fix: '#F6EEEA'
+    }
   },
   plugins: [
     // ...

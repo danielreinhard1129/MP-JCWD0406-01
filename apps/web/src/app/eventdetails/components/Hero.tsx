@@ -4,8 +4,8 @@ import React from 'react';
 import CardTransactionComp from '../transaction/CardTransaction';
 import { FiBookOpen, FiCalendar, FiClock } from 'react-icons/fi';
 import { FaMapLocationDot } from 'react-icons/fa6';
-import VoucherComp from '../transaction/Voucher';
-import TotalPrice from '../transaction/TotalPrice';
+import VoucherComp from '../../transactions/components/Voucher';
+import TotalPrice from '../../transactions/components/TotalPrice';
 
 const HeroComp = () => {
   return (
@@ -133,12 +133,6 @@ const HeroComp = () => {
         <div className="sticky top-2 h-fit">
           <div>
             <CardTransactionComp />
-          </div>
-          <div className="w-[270px] mt-3 bg-fix rounded-2xl shadow-xl">
-            <VoucherComp />
-          </div>
-          <div className="mt-3">
-            <TotalPrice />
           </div>
         </div>
       </div>

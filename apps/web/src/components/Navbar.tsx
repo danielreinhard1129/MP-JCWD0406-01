@@ -1,5 +1,4 @@
 'use client';
-import { useAppSelector } from '@/lib/hooks';
 import {
   Avatar,
   Button,
@@ -16,9 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 
 const NavBarComp = () => {
-
-  const user = useAppSelector((state) => state.user)
-
+  const [user, promotor] = useState(true);
 
   return (
     <div className="sticky ">
@@ -72,6 +69,7 @@ const NavBarComp = () => {
             >
               <DropdownItem>Profile</DropdownItem>
               <DropdownItem>Browse Events</DropdownItem>
+              <DropdownItem>Profile</DropdownItem>
             </Dropdown>
             {/* <Dropdown className="flex flex-wrap">
               <Avatar rounded />

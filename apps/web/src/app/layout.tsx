@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Header } from '@/components/Header';
+import { NavBarCom } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { ThemeModeScript } from 'flowbite-react';
 import StoreProvider from './StoreProvider';
@@ -25,7 +25,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <StoreProvider>
-          <Header />
+          <NavBarCom />
           {children}
           <Footer />
         </StoreProvider>

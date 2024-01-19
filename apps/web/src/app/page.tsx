@@ -1,10 +1,9 @@
-import { Button, ButtonGroup, ThemeModeScript } from 'flowbite-react';
-import Image from 'next/image';
+'use client';
+import { useAppSelector } from '@/lib/hooks';
+import HomePage from './home/page';
 
 export default function Home() {
-  return (
-    <main>
-      <div></div>
-    </main>
-  );
+  const user = useAppSelector((state) => state.user);
+
+  return <main>{user.id ? <HomePage /> : null}</main>;
 }

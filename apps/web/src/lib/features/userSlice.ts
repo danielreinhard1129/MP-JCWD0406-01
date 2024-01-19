@@ -1,37 +1,56 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import type { RootState } from '../../app/store';
-
-// Define a type for the slice state
-export interface CounterState {
-  value: number;
+export interface UserState {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  username: string;
+  contact: string;
+  address: string;
+  roleId: number;
 }
 
-// Define the initial state using that type
-const initialState: CounterState = {
-  value: 0,
+const initialState: UserState = {
+  id: 0,
+  email: '',
+  first_name: '',
+  last_name: '',
+  username: '',
+  contact: '',
+  address: '',
+  roleId: 0,
 };
 
-export const counterSlice = createSlice({
-  name: 'counter',
+export const userSlice = createSlice({
+  name: 'user',
+
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
     // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
+    loginAction: (state, action: PayloadAction<UserState>) => {
+      state.id = action.payload.id;
+      state.email = action.payload.email;
+      state.first_name = action.payload.first_name;
+      state.last_name = action.payload.last_name;
+      state.username = action.payload.username;
+      state.contact = action.payload.contact;
+      state.address = action.payload.address;
+      state.roleId = action.payload.roleId;
+    },
+    logoutAction: (state) => {
+      state.id = 0;
+      state.email = '';
+      state.first_name = '';
+      state.last_name = '';
+      state.username = '';
+      state.contact = '';
+      state.address = '';
+      state.roleId = 0;
     },
   },
 });
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { loginAction, logoutAction } = userSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
-// export const selectCount = (state: RootState) => state.counter.value;
-
-export default counterSlice.reducer;
+export default userSlice.reducer;

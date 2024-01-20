@@ -10,7 +10,13 @@ export class UserController {
   async getUserData(req: Request, res: Response, next: NextFunction) {
     try {
       //   const data = req.body;
-      const result = await prisma.user.findMany();
+      const result = await prisma.user.findMany({
+        include: {
+          Role: true,
+          MyVoucher: true,
+          Voucher: true,
+        }
+      });
       return res.status(200).send(result);
     } catch (error) {
       next(error);

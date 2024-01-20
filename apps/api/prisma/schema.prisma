@@ -38,6 +38,7 @@ model User {
   Role           Role          @relation(fields: [roleId], references: [id])
   UserReferall   UserReferall? @relation(fields: [userReferallId], references: [id])
   userReferallId Int?
+  Event          Event[]
 }
 
 model Role {
@@ -93,4 +94,28 @@ model Prize {
   id     Int    @id @default(autoincrement())
   name   String
   points Int
+}
+
+model Event {
+  id             Int        @id @default(autoincrement())
+  event_name     String
+  price          Int
+  location       String
+  description    String
+  avaibleSeat    Int
+  banner         String
+  category       String
+  userId         Int
+  dateTime       DateTime
+  createdAt      DateTime   @default(now())
+  updateAt       DateTime   @updatedAt
+  user           User       @relation(fields: [userId], references: [id])
+  event_category EventCat[]
+}
+
+model EventCat {
+  id         Int   @id @default(autoincrement())
+  categoryId Int
+  eventId    Int
+  event      Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }

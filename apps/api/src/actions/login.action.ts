@@ -3,14 +3,25 @@ import { comparePassword } from '@/lib/bcrypt';
 import { IUser } from '@/types/user.type';
 import { excludeFields } from '@/helpers/excludeFields';
 import { getUserByEmailRepository } from '@/repositories/getUserByEmail';
+import { ILogin } from '@/types/voucher.type';
+import { getUserByUsernameRepository } from '@/repositories/getUserByUsername';
 
-export const loginUserAction = async (data: IUser) => {
+export const loginUserAction = async (body: ILogin) => {
   try {
-    const { email, password } = data;
-    const user = await getUserByEmailRepository(email);
-    if (!user) throw new Error('Account not found');
 
-    const isPasswordValid = await comparePassword(password, user.password);
+    let user;
+    if (body.usernameOrEmail.includes("@")) {
+      user = await getUserByEmailRepository(body.usernameOrEmail);
+    } else {
+      user = await getUserByUsernameRepository(body.usernameOrEmail);
+    }
+    if (!user) {
+      return {
+        status: 404,
+        message: "account not found",
+      };
+    }
+    const isPasswordValid = await comparePassword(body.password, user.password);
     if (!isPasswordValid) throw new Error('invalid Password');
 
     const dataWithoutPassword = excludeFields(user, ['password']);

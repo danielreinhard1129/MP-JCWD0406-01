@@ -21,19 +21,23 @@ model Sample {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  first_name   String
-  last_name    String
-  username     String   @unique
-  password     String
-  email        String   @unique
-  contact      String
-  address      String
-  codeReferall String
-  updatedAt    DateTime @updatedAt
-  createdAt    DateTime @default(now())
-  roleId       Int // Assuming a foreign key to Role table
-  Role         Role     @relation(fields: [roleId], references: [id])
+  id             Int           @id @default(autoincrement())
+  first_name     String
+  last_name      String
+  username       String        @unique
+  password       String
+  email          String        @unique
+  contact        String
+  address        String
+  codeReferall   String
+  updatedAt      DateTime      @updatedAt
+  createdAt      DateTime      @default(now())
+  roleId         Int // Assuming a foreign key to Role table
+  Voucher        Voucher[]
+  MyVoucher      MyVoucher[]
+  Role           Role          @relation(fields: [roleId], references: [id])
+  UserReferall   UserReferall? @relation(fields: [userReferallId], references: [id])
+  userReferallId Int?
 }
 
 model Role {
@@ -41,4 +45,52 @@ model Role {
   roleName  String
   users     User[]
   createdAt DateTime @default(now())
+}
+
+model UserReferall {
+  id         Int      @id @default(autoincrement())
+  referallid Int
+  users      User[]
+  createdAt  DateTime @default(now())
+}
+
+model Voucher {
+  id                 Int      @id @default(autoincrement())
+  nameVoucher        String
+  eventId            Int
+  userId             Int
+  discountPercentage Float
+  startDate          DateTime
+  endDate            DateTime
+
+  // Relationships
+  user      User        @relation(fields: [userId], references: [id])
+  MyVoucher MyVoucher[]
+}
+
+model ClaimVoucher {
+  id              Int      @id @default(autoincrement())
+  transactionDate DateTime
+  myVoucherId     Int
+
+  // Relationships
+  myVoucher MyVoucher @relation(fields: [myVoucherId], references: [id])
+}
+
+model MyVoucher {
+  id          Int      @id @default(autoincrement())
+  voucherId   Int
+  userId      Int
+  expiredDate DateTime
+
+  // Relationships
+  voucher      Voucher        @relation(fields: [voucherId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
+  ClaimVoucher ClaimVoucher[]
+}
+
+model Prize {
+  id     Int    @id @default(autoincrement())
+  name   String
+  points Int
 }

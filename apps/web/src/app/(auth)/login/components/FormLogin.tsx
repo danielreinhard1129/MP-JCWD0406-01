@@ -12,7 +12,7 @@ import { Button, TextInput } from 'flowbite-react';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
-  email: yup.string().required('name Cannot be Empty').min(6),
+  usernameOrEmail: yup.string().required('name Cannot be Empty').min(6),
   password: yup
     .string()
     .required('length Password minimum  8 character')
@@ -25,16 +25,16 @@ const FormLogin = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      usernameOrEmail: '',
       password: '',
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const { email, password } = values;
+        const { usernameOrEmail, password } = values;
         const { data } = await axios.post(`${baseUrl}/users/login`, {
-          email,
-          password,
+          usernameOrEmail: values.usernameOrEmail,
+          password: values.password
         });
         console.log(data);
 
@@ -71,13 +71,14 @@ const FormLogin = () => {
           <TextInput
             className="pl-2 outline-none border-none"
             type="text"
-            name="email"
+            name="usernameOrEmail"
             onChange={formik.handleChange}
+            value={formik.values.usernameOrEmail}
             onBlur={formik.handleBlur}
-            placeholder="Email Address"
+            placeholder="Username or Email"
           />
-          {formik.errors.email && formik.touched.email && (
-            <div>{formik.errors.email}</div>
+          {formik.errors.usernameOrEmail && formik.touched.usernameOrEmail && (
+            <div>{formik.errors.usernameOrEmail}</div>
           )}
         </div>
         <div className=" items-center border-2 py-2 px-3 rounded-2xl mb-4">

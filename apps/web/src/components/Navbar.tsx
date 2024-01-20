@@ -120,10 +120,10 @@ const NavBarComp = () => {
               </NavbarLink>
               <hr className="divide-x border border-gray-950 h-[35px]" />
               <NavbarLink href="/login" active className="text-[15px]">
-                <text className="text-[#416067]" >Login</text>
+                <text className="text-primary" >Login</text>
               </NavbarLink>
               <NavbarLink href="/register" active className="text-[15px]">
-                <Button className="bg-[#4C3F3C] " >Register</Button>
+                <Button className="bg-primary " >Register</Button>
               </NavbarLink>
             </div>
           </NavbarCollapse>

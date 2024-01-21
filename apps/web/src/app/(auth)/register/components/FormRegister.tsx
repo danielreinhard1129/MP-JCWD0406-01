@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
@@ -6,6 +6,8 @@ import { baseUrl } from '@/app/utils/database';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Button, Label, Select, TextInput } from 'flowbite-react';
+import { useSelector } from 'react-redux';
+import { useAppSelector } from '@/lib/hooks';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
@@ -24,8 +26,14 @@ const validationSchema = yup.object().shape({
     .min(6, 'Password must be at least 8 characters'),
 });
 
+
+
 const FormRegister = () => {
   const router = useRouter();
+  const selector = useAppSelector((state) => state.user)
+  console.log(selector);
+
+
   const formik = useFormik({
     initialValues: {
       first_name: '',
@@ -36,6 +44,7 @@ const FormRegister = () => {
       email: '',
       password: '',
       role: '',
+      codeReferall: '',
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -43,9 +52,9 @@ const FormRegister = () => {
         console.log(values);
         let roleId;
         if (values.role == 'admin') {
-          roleId = 1;
-        } else {
           roleId = 2;
+        } else {
+          roleId = 1;
         }
 
         await axios.post(`${baseUrl}/users/register`, {
@@ -57,6 +66,7 @@ const FormRegister = () => {
           email: values.email,
           password: values.password,
           roleId,
+          codeReferall: values.codeReferall,
         });
         alert('register succes');
         router.push('/login');
@@ -68,6 +78,32 @@ const FormRegister = () => {
       }
     },
   });
+
+  const handleReferral = async () => {
+    try {
+      if (!formik.values.codeReferall) {
+        alert('code referal harus diisi')
+        return
+      }
+      const data = await axios.post(`${baseUrl}/reward/check-referral`, {
+        codeReferall: formik.values.codeReferall
+      })
+      alert(data.data.message);
+    } catch (error: any) {
+      alert(error.response.data.message);
+    }
+
+  }
+
+
+  useEffect(() => {
+    if (selector.roleId === 1) {
+      router.push('/');
+    }
+    if (selector.roleId === 2) {
+      router.push('/admin');
+    }
+  }, [selector]);
   return (
     <div className="justify-center p-10 md:p-10 items-center">
       <form onSubmit={formik.handleSubmit}>
@@ -189,6 +225,19 @@ const FormRegister = () => {
           )}
         </div>
         {/* ==== */}
+        <div className=" items-center border-2 py-2 px-3 rounded-2xl mb-4">
+          <TextInput
+            className="pl-2 outline-none border-none"
+            type="text"
+            name="codeReferall"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.codeReferall}
+            placeholder="Input your code Referall"
+          />
+          <Button className=' bg-primary m-3' onClick={handleReferral}>Cek Referral Code</Button>
+        </div>
+        {/* ==== */}
         <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
           <div className="max-w-md">
             <div className="mb-2 block">
@@ -212,8 +261,8 @@ const FormRegister = () => {
         >
           Register
         </Button>
-      </form>
-    </div>
+      </form >
+    </div >
   );
 };
 

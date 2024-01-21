@@ -2,10 +2,10 @@ export interface IVoucher{
     id: number,
     nameVoucher: string,
     eventId: number,
-    // userId             : number,
-    discountPercentage : Float32Array,
-    startDate          : Date,
-    endDate            : Date,
+    userId             : number,
+    discountPercentage :number,
+    createAt          : Date,
+    updateAt            : Date,
 } 
 
 export interface ILogin {
@@ -23,8 +23,8 @@ export interface IClaimVoucher {
 export interface IMyVoucher {
     id          : number,
     voucherId   : number,
-    // userId      : number,
-    expiredDate : number
+    userId      : number,
+    expiredDate : Date
 }
 export interface IUserReff{
      id        : number,

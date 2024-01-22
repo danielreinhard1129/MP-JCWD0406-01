@@ -10,6 +10,7 @@ import cors from 'cors';
 import { PORT } from './config';
 import { SampleRouter } from './routers/sample.router';
 import { UserRouter } from './routers/user.router';
+import { EventRouter } from './routers/event.router';
 
 export default class App {
   private app: Express;
@@ -53,10 +54,12 @@ export default class App {
   private routes(): void {
     const sampleRouter = new SampleRouter();
     const userRouter = new UserRouter();
+    const eventRouter = new EventRouter();
     // const pokemonRouter = new PokemonRouter();
 
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/users', userRouter.getRouter());
+    this.app.use('/api/events', eventRouter.getRouter());
   }
 
   public start(): void {

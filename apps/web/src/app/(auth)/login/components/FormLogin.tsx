@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios, { AxiosError } from 'axios';
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { loginAction } from '@/lib/features/userSlice';
 import { useFormik } from 'formik';
 import { baseUrl } from '@/app/utils/database';
@@ -22,6 +22,7 @@ const validationSchema = yup.object().shape({
 const FormLogin = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const selector = useAppSelector((state) => state.user)
 
   const formik = useFormik({
     initialValues: {
@@ -54,6 +55,14 @@ const FormLogin = () => {
       }
     },
   });
+  useEffect(() => {
+    if (selector.roleId === 1) {
+      router.push('/');
+    }
+    if (selector.roleId === 2) {
+      router.push('/admin');
+    }
+  }, [selector]);
   return (
     <div className=" justify-center p-10 items-center">
       <form

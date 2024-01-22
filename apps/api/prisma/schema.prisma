@@ -17,15 +17,6 @@ model Sample {
   @@map("samples")
 }
 
-model claimvoucher {
-  id              Int       @id @default(autoincrement())
-  transactionDate DateTime
-  myVoucherId     Int
-  myvoucher       myvoucher @relation(fields: [myVoucherId], references: [id], map: "ClaimVoucher_myVoucherId_fkey")
-
-  @@index([myVoucherId], map: "ClaimVoucher_myVoucherId_fkey")
-}
-
 model event {
   id          Int        @id @default(autoincrement())
   event_name  String
@@ -54,73 +45,88 @@ model eventcat {
   @@index([eventId], map: "EventCat_eventId_fkey")
 }
 
-model myvoucher {
-  id           Int            @id @default(autoincrement())
-  voucherId    Int
-  userId       Int
-  expiredDate  DateTime
-  claimvoucher claimvoucher[]
-  user         user           @relation(fields: [userId], references: [id], map: "MyVoucher_userId_fkey")
-  voucher      voucher        @relation(fields: [voucherId], references: [id], map: "MyVoucher_voucherId_fkey")
 
-  @@index([userId], map: "MyVoucher_userId_fkey")
-  @@index([voucherId], map: "MyVoucher_voucherId_fkey")
+model User {
+  id           Int             @id @default(autoincrement())
+  first_name   String
+  last_name    String
+  username     String          @unique
+  password     String
+  email        String          @unique
+  contact      String          @default("62")
+  address      String
+  codeReferall String          @unique
+  updatedAt    DateTime        @updatedAt
+  createdAt    DateTime        @default(now())
+  isDeleted    Boolean         @default(false)
+  roleId       Int // Assuming a foreign key to Role table
+  Voucher      Voucher[]
+  MyVoucher    MyVoucher[]
+  Role         Role            @relation(fields: [roleId], references: [id])
+  Event        Event[]
+  CouponUser   CouponUser[]
+  referrerUser PointReferall[] @relation("Referrer")
 }
 
-model prize {
-  id     Int    @id @default(autoincrement())
-  name   String
-  points Int
-}
-
-model role {
+model Role {
   id        Int      @id @default(autoincrement())
   roleName  String
+  users     User[]
   createdAt DateTime @default(now())
-  user      user[]
 }
 
-model user {
-  id             Int           @id @default(autoincrement())
-  first_name     String
-  last_name      String
-  username       String        @unique(map: "User_username_key")
-  password       String
-  email          String        @unique(map: "User_email_key")
-  contact        String
-  address        String
-  codeReferall   String
-  updatedAt      DateTime
-  createdAt      DateTime      @default(now())
-  roleId         Int
-  userReferallId Int?
-  event          event[]
-  myvoucher      myvoucher[]
-  role           role          @relation(fields: [roleId], references: [id], map: "User_roleId_fkey")
-  userreferall   userreferall? @relation(fields: [userReferallId], references: [id], map: "User_userReferallId_fkey")
-  voucher        voucher[]
+model CouponUser {
+  id                 Int      @id @default(autoincrement())
+  userId             Int
+  couponCode         String
+  discountPersentase Int
+  dateReceived       DateTime @default(now())
+  expiresOn          DateTime
 
-  @@index([roleId], map: "User_roleId_fkey")
-  @@index([userReferallId], map: "User_userReferallId_fkey")
+  User User @relation(fields: [userId], references: [id])
 }
 
-model userreferall {
-  id         Int      @id @default(autoincrement())
-  referallid Int
-  createdAt  DateTime @default(now())
-  user       user[]
+model PointReferall {
+  id             Int      @id @default(autoincrement())
+  referrerUserId Int
+  referredUserId Int      @unique
+  pointEarned    Int
+  dateEarned     DateTime @default(now())
+  expiresOn      DateTime
+  referrerUser   User     @relation("Referrer", fields: [referrerUserId], references: [id])
 }
 
-model voucher {
+model Voucher {
   id                 Int         @id @default(autoincrement())
   nameVoucher        String
-  eventId            Int
+  // eventId            Int
   userId             Int
-  discountPercentage Float
-  startDate          DateTime
-  endDate            DateTime
-  myvoucher          myvoucher[]
-  user               user        @relation(fields: [userId], references: [id], map: "Voucher_userId_fkey")
+  discountPercentage Int
+  createAt           DateTime    @default(now())
+  updateAt           DateTime    @updatedAt
+  useVoucher         Boolean     @default(false)
+  // Relationships
+  user               User        @relation(fields: [userId], references: [id])
+  MyVoucher          MyVoucher[]
+}
 
-  @@index([userId], map: "Voucher_userId_fkey")
+model ClaimVoucher {
+  id              Int      @id @default(autoincrement())
+  transactionDate DateTime
+  myVoucherId     Int
+
+  // Relationships
+  myVoucher MyVoucher @relation(fields: [myVoucherId], references: [id])
+}
+
+model MyVoucher {
+  id          Int      @id @default(autoincrement())
+  voucherId   Int
+  userId      Int
+  expiredDate DateTime
+
+  // Relationships
+  voucher      Voucher        @relation(fields: [voucherId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
+  ClaimVoucher ClaimVoucher[]
 }

@@ -1,8 +1,8 @@
 import prisma from '@/prisma';
 
-export const getAllEvents = async () => {
+export const getRandomEvents = async () => {
   try {
-    const eventData = await prisma.event.findMany({
+    const allEvents = await prisma.event.findMany({
       include: {
         location: true,
         user: {
@@ -16,7 +16,9 @@ export const getAllEvents = async () => {
       },
     });
 
-    return eventData;
+    const randomEvents = allEvents.sort(() => Math.random() - 0.5);
+
+    return randomEvents;
   } catch (error) {
     throw error;
   }

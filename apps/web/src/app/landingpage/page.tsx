@@ -16,11 +16,11 @@ const LandingPage = () => {
           <EventComp />
         </div>
       </div>
-      <div className="bg-gray-300 shadow-inner">
+      {/* <div className="bg-gray-300 shadow-inner">
         <div className="container mx-auto max-w-7xl px-2">
           <EventByLocation />
         </div>
-      </div>
+      </div> */}
       <div className="">
         <div className="contianer mx-auto max-w-7xl px-2">
           <OurPartnersComp />

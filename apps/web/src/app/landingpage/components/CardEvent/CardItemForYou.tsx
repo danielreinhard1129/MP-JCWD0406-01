@@ -12,9 +12,6 @@ interface ICardItems {
 }
 
 const CardItemForYou: React.FC<ICardItems> = ({ event }) => {
-  // const [data, setEvent] = useState(event);
-  console.log('testttt', event);
-
   return (
     <Link href={`/${event.id}`}>
       <div className="md:w-[300px] w-[350px] h-[400px] bg-[#d7d7d7] rounded-2xl shadow-xl">
@@ -28,27 +25,27 @@ const CardItemForYou: React.FC<ICardItems> = ({ event }) => {
         </div>
         <div className="px-3 mt-2 h-[250px]">
           <h1 className="font-semibold text-[19px] line-clamp-1">
-            {event.event_name}
+            {event.title}
           </h1>
           <div className=" flex justify-between flex-wrap">
             <div className=" flex gap-1 items-center">
               <FiCalendar />
-              {event.dateTime.slice(0, 10)}
+              {event.startDate.slice(0, 10)}
             </div>
             <div>
               <span className="flex flex-wrap items-center gap-1 font-light">
-                <FiMapPin /> {event.location}
+                <FiMapPin /> {event.location.city}
               </span>
             </div>
           </div>
           <div className=" flex flex-wrap justify-between">
-            <text>Promotor</text>
+            <text>{event.user.first_name}</text>
           </div>
           <div className="mt-1 text-[15px]">
-            <text className="font-bold">Prize: IDR {event.price}</text>
+            <text className="font-bold">Prize: Rp: {event.price}</text>
           </div>
           <div className="flex gap-2">
-            <Badge className="bg-[#ffb6c1]">{event.category}</Badge>
+            {/* <Badge className="bg-[#ffb6c1]">{event.category}</Badge> */}
             <Badge className="bg-[#ffb6c1]">Life Style</Badge>
           </div>
           <p className="font-light mt-2 line-clamp-2">{event.description}</p>

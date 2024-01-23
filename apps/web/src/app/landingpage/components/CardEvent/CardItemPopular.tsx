@@ -1,11 +1,17 @@
-import { Card } from 'flowbite-react';
+import { Badge, Card } from 'flowbite-react';
 import Image from 'next/image';
+import Link from 'next/link';
+import React, { useState } from 'react';
 import { FiCalendar, FiMapPin } from 'react-icons/fi';
 
-const CardItemPopular = () => {
+interface ICardItems {
+  event: any;
+}
+
+const CardItemPopular: React.FC<ICardItems> = ({ event }) => {
   return (
-    <a href="/eventdetails">
-      <div className="md:w-[300px] w-[350px] bg-[#C8AA8E] rounded-2xl shadow-xl">
+    <Link href={`/${event.title}`}>
+      <div className="md:w-[300px] w-[350px] h-[400px] bg-[#d7d7d7] rounded-2xl shadow-xl">
         <div className="md:w-[300px] w-[350px] rounded-tl-2xl rounded-tr-2xl  relative h-[180px] overflow-hidden">
           <Image
             src={'/images/herobg-min.jpg'}
@@ -14,42 +20,40 @@ const CardItemPopular = () => {
             alt={'card event'}
           />
         </div>
-        <div className="px-3 mt-4">
-          <h1 className="font-semibold text-[20px]">Lorem, ipsum dolor.</h1>
-          <p className="font-light mt-2">
-            Lorem ipsum dolor sit amet consectetur .
-          </p>
-          <div className="mt-3 flex justify-between flex-wrap">
-            <div className="grid grid-cols-2 gap-2">
-              <span className="text-[15px] bg-[#B45948] font-light bg-slate-500 rounded-lg px-2">
-                Music
-              </span>
-              <span className="text-[15px] bg-[#B45948] font-light bg-slate-500 rounded-lg px-2">
-                Food
-              </span>
-            </div>
-            <div className="flex flex-wrap items-center gap-1 font-light">
+        <div className="px-3 mt-2 h-[250px]">
+          <h1 className="font-semibold text-[19px] line-clamp-1">
+            {event.title}
+          </h1>
+          <div className=" flex justify-between flex-wrap">
+            <div className=" flex gap-1 items-center">
               <FiCalendar />
-              date time
+              {event.startDate.slice(0, 10)}
+            </div>
+            <div>
+              <span className="flex flex-wrap items-center gap-1 font-light">
+                <FiMapPin /> {event.location.city}
+              </span>
             </div>
           </div>
-          <div className="mt-2 flex flex-wrap justify-between">
-            <text>Promotor</text>
-            <text className="flex flex-wrap items-center gap-1 font-light">
-              <FiMapPin /> Location
+          <div className=" flex flex-wrap justify-between">
+            <text>{event.user.first_name}</text>
+          </div>
+          <div className="mt-1 text-[15px]">
+            <text className="font-bold">Prize: Rp: {event.price}</text>
+          </div>
+          <div className="flex gap-2">
+            {/* <Badge className="bg-[#ffb6c1]">{event.category}</Badge> */}
+            <Badge className="bg-[#ffb6c1]">Life Style</Badge>
+          </div>
+          <p className="font-light mt-2 line-clamp-2">{event.description}</p>
+          <Link href={'/viewdetails'}>
+            <text className="underline font-bold text-[#1f2a38]">
+              view details
             </text>
-          </div>
-          <div className="mt-2 text-[15px]">
-            <text>Event price</text>
-          </div>
-          <div className="mt-3 pb-2">
-            <text className="underline text-[15px] text-green-600">
-              View Deatails
-            </text>
-          </div>
+          </Link>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 

@@ -17,6 +17,10 @@ export class EventRouter {
       '/random-events',
       this.eventController.getRandomEventController,
     );
+    this.router.get(
+      '/new-release-events',
+      this.eventController.getNewReleaseEventsController,
+    );
   }
 
   getRouter(): Router {

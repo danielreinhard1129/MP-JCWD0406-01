@@ -1,4 +1,6 @@
 import { forgotPasswordAction } from '@/actions/forgot.action';
+import { getAllUserAction } from '@/actions/getAlluser';
+import { getRolebyUserAction } from '@/actions/getRolebyUser.action';
 import { keepLoginAction } from '@/actions/keeplogin.action';
 import { loginUserAction } from '@/actions/login.action';
 // import { claimCodeReferralAction } from '@/actions/referall/claimCodeReferall';
@@ -12,23 +14,23 @@ import { NextFunction, Request, Response } from 'express';
 export class UserController {
   async getUserData(req: Request, res: Response, next: NextFunction) {
     try {
-      //   const data = req.body;
-      const result = await prisma.user.findMany({
-        include: {
-          Role: true,
-          MyVoucher: {
-            include: {
-              voucher: true,
-            },
-          },
-          Event: true,
-        },
-      });
+      const result = await getAllUserAction();
+      return res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getUserbyId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await getRolebyUserAction(Number(id));
       return res.status(200).send(result);
     } catch (error) {
       next(error);
     }
   }
+
   async registerUser(req: Request, res: Response, next: NextFunction) {
     try {
       const data = req.body;

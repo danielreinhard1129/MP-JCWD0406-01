@@ -1,10 +1,49 @@
 'use client';
 
+import { baseUrl } from '@/app/utils/database';
+import axios from 'axios';
 import { Modal, ModalBody, ModalHeader } from 'flowbite-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const VoucherComp = () => {
+
+export interface IUser {
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  password: string;
+  email: string;
+  contact: string;
+  codeReferall: string;
+  address: string;
+  updatedAt: Date;
+  createdAt: Date;
+  roleId: number;
+}
+
+
+const VoucherComp = (IUser: any) => {
   const [openModal, setOpenModal] = useState(false);
+
+  const [discount, setDiscount] = useState([]);
+  console.log(discount);
+
+  const getDiscount = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/users/`);
+      setDiscount(response.data)
+      console.log("Discount", response.data);
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
+
+
+  useEffect(() => {
+    getDiscount();
+  }, [])
   return (
     <div className="">
       <button
@@ -19,24 +58,22 @@ const VoucherComp = () => {
         </ModalHeader>
         <ModalBody>
           <div className="flex flex-wrap justify-between">
-            <div>
-              <h2>Discount IDR 10.000</h2>
-              <text>From Aldi Taher</text>
-              <br />
-              <text>Expired at 30 Feb 2023</text>
-            </div>
-            <button className="bg-fourth rounded-xl p-2">Use Voucher</button>
+            {discount.map((data) => {
+              return (
+                <div key={data.id}>
+                  <div>
+                    <h2>Discount { } IDR 1.000</h2>
+                    <text>From {data.username}</text>
+                    <br />
+                    <text>Expired at 3 Feb 2023</text>
+                  </div>
+                  <button className="bg-fourth rounded-xl p-2">Use Voucher</button>
+                </div>)
+            })}
           </div>
+
           <hr className="mt-3" />
-          <div className="mt-3 flex flex-wrap justify-between">
-            <div>
-              <h2>Discount IDR 10.000</h2>
-              <text>From Aldi Taher</text>
-              <br />
-              <text>Expired at 30 Feb 2023</text>
-            </div>
-            <button className="bg-fourth rounded-xl p-2">Use Voucher</button>
-          </div>
+
         </ModalBody>
       </Modal>
     </div>

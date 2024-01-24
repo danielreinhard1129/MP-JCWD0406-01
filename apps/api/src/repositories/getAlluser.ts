@@ -1,9 +1,12 @@
 import prisma from '@/prisma';
+import { IUser } from '@/types/user.type';
 
-export const findUserById = async (id: number) => {
+export const findAllUser = async () => {
   try {
     const user = await prisma.user.findMany({
-      where: { id },
+      orderBy: {
+        id: 'desc',
+      },
       include: {
         Role: true,
       },

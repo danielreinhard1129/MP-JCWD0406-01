@@ -1,6 +1,7 @@
 import React from 'react';
 import PriceListComp from './components/PriceList';
 import TotalPrice from './components/TotalPrice';
+import VoucherComp from './components/Voucher';
 
 const TransactionPage = () => {
   return (
@@ -16,6 +17,8 @@ const TransactionPage = () => {
             </div>
             <div className="rounded-2xl">
               <TotalPrice />
+
+              <VoucherComp />
             </div>
           </div>
         </div>

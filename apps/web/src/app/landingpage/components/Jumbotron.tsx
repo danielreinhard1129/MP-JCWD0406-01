@@ -5,12 +5,29 @@ import { HiUserGroup } from 'react-icons/hi';
 import { IoGlobeOutline } from 'react-icons/io5';
 import { TbMoodCheck } from 'react-icons/tb';
 import Autocomplete from './Autocomplete';
+import { useEffect, useState } from 'react';
+import { baseUrl } from '@/app/utils/database';
+import axios from 'axios';
 
 const Jumbotron = () => {
+  const [input, setInput] = useState([]);
+  const getAllEvents = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/events/all-events`);
+      setInput(response.data.data);
+      console.log('passsss', response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllEvents();
+  }, []);
   return (
     <section className="pt-3 md:h-screen w-full pb-5">
       <div className="md:px-[200px] px-[20px]">
-        <Autocomplete />
+        <Autocomplete data={input} />
       </div>
       {/* Phone carausel */}
       <div className="md:hidden mt-3 h-[230px] ">

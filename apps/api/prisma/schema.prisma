@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,7 +14,56 @@ model Sample {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("samples") // if you want to use snake_case format
+  @@map("samples")
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  locationId  Int
+  startDate   DateTime
+  endDate     DateTime
+  price       Float
+  limit       Int
+  booked      Int      @default(0)
+  thumbnail   String
+  userId      Int
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
+
+  location       Location         @relation(fields: [locationId], references: [id])
+  user           User             @relation(fields: [userId], references: [id])
+  Event_category Event_category[]
+}
+
+model Location {
+  id        Int      @id @default(autoincrement())
+  city      String
+  country   String
+  createdAt DateTime @default(now())
+  Event     Event[]
+}
+
+model Event_category {
+  id         Int      @id @default(autoincrement())
+  categoryId Int
+  eventId    Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  category Category @relation(fields: [categoryId], references: [id])
+  event    Event    @relation(fields: [eventId], references: [id])
+}
+
+model Category {
+  id             Int              @id @default(autoincrement())
+  title          String
+  description    String
+  isDeleted      Boolean          @default(false)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  Event_category Event_category[]
 }
 
 model User {
@@ -103,28 +149,4 @@ model MyVoucher {
   voucher      Voucher        @relation(fields: [voucherId], references: [id])
   user         User           @relation(fields: [userId], references: [id])
   ClaimVoucher ClaimVoucher[]
-}
-
-model Event {
-  id             Int        @id @default(autoincrement())
-  event_name     String
-  price          Int
-  location       String
-  description    String
-  avaibleSeat    Int
-  banner         String
-  category       String
-  userId         Int
-  dateTime       DateTime
-  createdAt      DateTime   @default(now())
-  updateAt       DateTime   @updatedAt
-  user           User       @relation(fields: [userId], references: [id])
-  event_category EventCat[]
-}
-
-model EventCat {
-  id         Int   @id @default(autoincrement())
-  categoryId Int
-  eventId    Int
-  event      Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }

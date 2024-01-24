@@ -7,6 +7,7 @@ import {
 } from 'flowbite-react';
 import React from 'react';
 import { FaCoins } from 'react-icons/fa6';
+import DiscountPrice from './discount';
 
 const PriceListComp = () => {
   return (
@@ -64,36 +65,7 @@ const PriceListComp = () => {
               </div>
             </AccordionContent>
           </AccordionPanel>
-          <AccordionPanel className="bg-fix">
-            <AccordionTitle className="bg-fix">Discount</AccordionTitle>
-            <AccordionContent>
-              <div className="flex flex-wrap justify-between">
-                <div className="flex flex-col">
-                  <text className="text-[15px]">Discount IDR 10.000</text>
-                  <text className="text-[15px]">From Aldi Taher</text>
-                  <text className="text-[15px]">Expired at 30 Feb 2023</text>
-                </div>
-                <div className="self-center">
-                  <button className="bg-fourth rounded-xl py-2 px-1">
-                    Use Discount
-                  </button>
-                </div>
-              </div>
-              <hr className="mt-3" />
-              <div className="mt-3 flex flex-wrap justify-between">
-                <div className="flex flex-col">
-                  <text className="text-[15px]">Discount IDR 10.000</text>
-                  <text className="text-[15px]">From Aldi Taher</text>
-                  <text className="text-[15px]">Expired at 30 Feb 2023</text>
-                </div>
-                <div className="self-center">
-                  <button className="bg-fourth rounded-xl py-2 px-1">
-                    Use Discount
-                  </button>
-                </div>
-              </div>
-            </AccordionContent>
-          </AccordionPanel>
+          <DiscountPrice />
         </Accordion>
         <div className="mt-3 flex justify-between">
           <div className="flex flex-wrap gap-2 items-center">

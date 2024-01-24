@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
-import axios, { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
-import { useFormik } from 'formik';
 import { baseUrl } from '@/app/utils/database';
+import { useAppSelector } from '@/lib/hooks';
+import axios, { AxiosError } from 'axios';
+import { Button, Label, Select, TextInput } from 'flowbite-react';
+import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
-import { Button, Label, Select, TextInput } from 'flowbite-react';
-import { useSelector } from 'react-redux';
-import { useAppSelector } from '@/lib/hooks';
 YupPassword(yup);
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+
 
 const validationSchema = yup.object().shape({
   first_name: yup.string().required('First Name is required'),
@@ -68,7 +71,7 @@ const FormRegister = () => {
           roleId,
           codeReferall: values.codeReferall,
         });
-        alert('register succes');
+        toast.success('register succes');
         router.push('/login');
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -82,13 +85,13 @@ const FormRegister = () => {
   const handleReferral = async () => {
     try {
       if (!formik.values.codeReferall) {
-        alert('code referal harus diisi')
+        toast.error('code referal harus diisi')
         return
       }
       const data = await axios.post(`${baseUrl}/reward/check-referral`, {
         codeReferall: formik.values.codeReferall
       })
-      alert(data.data.message);
+      toast.success(data.data.message);
     } catch (error: any) {
       alert(error.response.data.message);
     }
@@ -106,6 +109,7 @@ const FormRegister = () => {
   }, [selector]);
   return (
     <div className="justify-center p-10 md:p-10 items-center">
+      <Toaster />
       <form onSubmit={formik.handleSubmit}>
         <h1 className="text-secondary font-bold text-2xl mb-1">
           Hello Eventerss!
@@ -150,14 +154,14 @@ const FormRegister = () => {
         </div>
         {/* ==== */}
         <div className="grid grid-cols-1 items-center border-2 py-2 px-3 rounded-2xl mb-4">
-          <TextInput
-            className="pl-2 outline-none border-none flex"
-            type="text"
-            name="contact"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+          <PhoneInput
+            international
+            defaultCountry="ID"
             value={formik.values.contact}
-            placeholder="Contact Phone"
+            onChange={(value) => formik.setFieldValue('contact', value)}
+            onBlur={formik.handleBlur}
+            id="contact"
+            name="contact"
           />
           {formik.errors.contact && formik.touched.contact && (
             <div>{formik.errors.contact}</div>

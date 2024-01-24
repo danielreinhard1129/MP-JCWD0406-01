@@ -15,7 +15,6 @@ const Jumbotron = () => {
     try {
       const response = await axios.get(`${baseUrl}/events/all-events`);
       setInput(response.data.data);
-      console.log('passsss', response.data);
     } catch (error) {
       console.log(error);
     }

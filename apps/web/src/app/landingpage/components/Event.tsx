@@ -41,6 +41,24 @@ const EventComp = () => {
   useEffect(() => {
     getRandomEvent();
   }, []);
+
+  //state for get new release event
+  const [newReleases, setNewReleases] = useState([]);
+  const newReleaseEvent = async () => {
+    try {
+      const resNewReleaseEvents = await axios.get(
+        `${baseUrl}/events/new-release-events`,
+      );
+      setNewReleases(resNewReleaseEvents.data.data);
+      console.log('eventtttttttt', resNewReleaseEvents.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    newReleaseEvent();
+  }, []);
   return (
     <section className="pt-5 pb-5">
       <h1 className="text-4xl text-center">Events</h1>
@@ -79,12 +97,11 @@ const EventComp = () => {
           </TabItem>
           <TabItem active title="New release">
             <div className="grid md:grid-cols-4 grid-cols-1 gap-5">
-              <CardItemNewRelease />
-              <CardItemNewRelease />
-              <CardItemNewRelease />
-              <CardItemNewRelease />
-              <CardItemNewRelease />
-              <CardItemNewRelease />
+              {newReleases.map((newrelease) => {
+                return (
+                  <CardItemNewRelease key={newrelease} event={newrelease} />
+                );
+              })}
             </div>
           </TabItem>
         </Tabs>

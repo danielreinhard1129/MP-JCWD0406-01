@@ -10,7 +10,7 @@ interface ICardItems {
 
 const CardItemPopular: React.FC<ICardItems> = ({ event }) => {
   return (
-    <Link href={`/${event.title}`}>
+    <Link href={`/${event.id}`}>
       <div className="md:w-[300px] w-[350px] h-[400px] bg-[#d7d7d7] rounded-2xl shadow-xl">
         <div className="md:w-[300px] w-[350px] rounded-tl-2xl rounded-tr-2xl  relative h-[180px] overflow-hidden">
           <Image

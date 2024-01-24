@@ -1,4 +1,5 @@
 import { getAllEventAction } from '@/actions/events/getAllEventsAction';
+import { getNewReleaseEventsAction } from '@/actions/events/getNewReleaseEventsAction';
 import { getRandomEventsAction } from '@/actions/events/getRandomEventsActions';
 import prisma from '@/prisma';
 import { NextFunction, Request, Response } from 'express';
@@ -23,6 +24,20 @@ export class EventController {
       const randomEvents = await getRandomEventsAction();
 
       return res.status(randomEvents.status).send(randomEvents);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getNewReleaseEventsController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await getNewReleaseEventsAction();
+
+      return res.status(result.status).send(result);
     } catch (error) {
       next(error);
     }

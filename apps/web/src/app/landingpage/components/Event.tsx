@@ -7,25 +7,40 @@ import CardItemNewRelease from './CardEvent/CardItemNewRelease';
 import CardItemForYou from './CardEvent/CardItemForYou';
 import { baseUrl } from '@/app/utils/database';
 import axios from 'axios';
+import { event } from 'cypress/types/jquery';
 
 const EventComp = () => {
   // state for get all event
   const [allEvent, setAllEvent] = useState([]);
   const getAllEvents = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/events/get-all-events`);
-      setAllEvent(response.data);
-      // console.log('eventttttt', response.data);
+      const response = await axios.get(`${baseUrl}/events/all-events`);
+      setAllEvent(response.data.data);
     } catch (error) {
       console.log(error);
     }
   };
-  console.log('data eventttttttt', allEvent);
 
   useEffect(() => {
     getAllEvents();
   }, []);
 
+  // state for get random events
+  const [randomEvent, setRandomEvent] = useState([]);
+  const getRandomEvent = async () => {
+    try {
+      const resRandomEvents = await axios.get(
+        `${baseUrl}/events/random-events`,
+      );
+      setRandomEvent(resRandomEvents.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getRandomEvent();
+  }, []);
   return (
     <section className="pt-5 pb-5">
       <h1 className="text-4xl text-center">Events</h1>
@@ -40,9 +55,11 @@ const EventComp = () => {
         >
           <TabItem active title="Popular">
             <div className="grid md:grid-cols-4 grid-cols-1 gap-4">
-              <CardItemPopular />
-              <CardItemPopular />
-              <CardItemPopular />
+              {randomEvent.map((randomevent) => {
+                return (
+                  <CardItemPopular key={randomevent} event={randomevent} />
+                );
+              })}
             </div>
           </TabItem>
           <TabItem active title="This weekend">

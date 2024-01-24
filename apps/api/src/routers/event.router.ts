@@ -12,7 +12,11 @@ export class EventRouter {
   }
 
   private intializeRoutes(): void {
-    this.router.get('/get-all-events', this.eventController.getAllEvent);
+    this.router.get('/all-events', this.eventController.getAllEvent);
+    this.router.get(
+      '/random-events',
+      this.eventController.getRandomEventController,
+    );
   }
 
   getRouter(): Router {

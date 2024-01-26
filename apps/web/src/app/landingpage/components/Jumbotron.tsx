@@ -10,11 +10,27 @@ import { baseUrl } from '@/app/utils/database';
 import axios from 'axios';
 
 const Jumbotron = () => {
-  const [input, setInput] = useState([]);
+  // const [input, setInput] = useState([]);
+  // const getAllEvents = async () => {
+  //   try {
+  //     const response = await axios.get(`${baseUrl}/events/debounce`);
+  //     setInput(response.data);
+  //     console.log('dataaaaaaaaaa', response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getAllEvents();
+  // }, []);
+
+  const [events, setEvents] = useState([]);
   const getAllEvents = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/events/all-events`);
-      setInput(response.data.data);
+      const reponse = await axios.get(`${baseUrl}/events/debounce`);
+      setEvents(reponse.data.data);
+      console.log('dataaa', reponse.data);
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +42,7 @@ const Jumbotron = () => {
   return (
     <section className="pt-3 md:h-screen w-full pb-5">
       <div className="md:px-[200px] px-[20px]">
-        <Autocomplete data={input} />
+        <Autocomplete event={events} />
       </div>
       {/* Phone carausel */}
       <div className="md:hidden mt-3 h-[230px] ">

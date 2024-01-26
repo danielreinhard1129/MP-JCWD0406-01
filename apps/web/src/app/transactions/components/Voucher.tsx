@@ -5,7 +5,6 @@ import axios from 'axios';
 import { Modal, ModalBody, ModalHeader } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 
-
 export interface IUser {
   id: number;
   first_name: string;
@@ -21,7 +20,6 @@ export interface IUser {
   roleId: number;
 }
 
-
 const VoucherComp = (IUser: any) => {
   const [openModal, setOpenModal] = useState(false);
 
@@ -30,20 +28,17 @@ const VoucherComp = (IUser: any) => {
 
   const getDiscount = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/users/`);
-      setDiscount(response.data)
-      console.log("Discount", response.data);
+      const response = await axios.get(`${baseUrl}/users`);
+      setDiscount(response.data);
+      console.log('Discount', response.data);
     } catch (error) {
       console.log(error);
-
     }
-
-  }
-
+  };
 
   useEffect(() => {
     getDiscount();
-  }, [])
+  }, []);
   return (
     <div className="">
       <button
@@ -58,22 +53,18 @@ const VoucherComp = (IUser: any) => {
         </ModalHeader>
         <ModalBody>
           <div className="flex flex-wrap justify-between">
-            {discount.map((data) => {
-              return (
-                <div key={data.id}>
-                  <div>
-                    <h2>Discount { } IDR 1.000</h2>
-                    <text>From {data.username}</text>
-                    <br />
-                    <text>Expired at 3 Feb 2023</text>
-                  </div>
-                  <button className="bg-fourth rounded-xl p-2">Use Voucher</button>
-                </div>)
-            })}
+            <div>
+              <div>
+                <h2>Discount {} IDR 1.000</h2>
+                <text>From </text>
+                <br />
+                <text>Expired at 3 Feb 2023</text>
+              </div>
+              <button className="bg-fourth rounded-xl p-2">Use Voucher</button>
+            </div>
           </div>
 
           <hr className="mt-3" />
-
         </ModalBody>
       </Modal>
     </div>

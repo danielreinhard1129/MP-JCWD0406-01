@@ -7,7 +7,7 @@ import { loginUserAction } from '@/actions/login.action';
 // import { claimReferallAction } from '@/actions/referall/claimReferallUser';
 import { registerAction } from '@/actions/register.action';
 import { resetPasswordAction } from '@/actions/reset.action';
-import { createVoucherAction } from '@/actions/voucher/createVoucher';
+// import { createVoucherAction } from '@/actions/voucher/createVoucher';
 import prisma from '@/prisma';
 import { NextFunction, Request, Response } from 'express';
 
@@ -88,12 +88,12 @@ export class UserController {
     }
   }
 
-  async createVoucher(req: Request, res: Response, next: NextFunction) {
-    try {
-      const result = await createVoucherAction(req.body);
-      return res.status(result.status).send(result);
-    } catch (error) {
-      next(error);
-    }
-  }
+  // async createVoucher(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     const result = await createVoucherAction(req.body);
+  //     return res.status(result.status).send(result);
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 }

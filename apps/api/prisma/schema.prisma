@@ -35,6 +35,9 @@ model Event {
   location       Location         @relation(fields: [locationId], references: [id])
   user           User             @relation(fields: [userId], references: [id])
   Event_category Event_category[]
+  Voucher        Voucher[]
+  Transaction    Transaction[]
+  Discount       Discount[]
 }
 
 model Location {
@@ -81,11 +84,13 @@ model User {
   isDeleted    Boolean         @default(false)
   roleId       Int // Assuming a foreign key to Role table
   Voucher      Voucher[]
-  MyVoucher    MyVoucher[]
+  UserVoucher  UserVoucher[]
   Role         Role            @relation(fields: [roleId], references: [id])
   Event        Event[]
   CouponUser   CouponUser[]
   referrerUser PointReferall[] @relation("Referrer")
+  Transaction  Transaction[]
+  UserReward   UserReward[]
 }
 
 model Role {
@@ -117,17 +122,21 @@ model PointReferall {
 }
 
 model Voucher {
-  id                 Int         @id @default(autoincrement())
-  nameVoucher        String
-  // eventId            Int
-  userId             Int
-  discountPercentage Int
-  createAt           DateTime    @default(now())
-  updateAt           DateTime    @updatedAt
-  useVoucher         Boolean     @default(false)
-  // Relationships
-  user               User        @relation(fields: [userId], references: [id])
-  MyVoucher          MyVoucher[]
+  id        Int      @id @default(autoincrement())
+  code      String   @unique
+  nominal   Int
+  limit     Int
+  claim     Int      @default(0)
+  startDate DateTime
+  endDate   DateTime
+  eventId   Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updaetdAt DateTime @updatedAt
+
+  event       Event         @relation(fields: [eventId], references: [id])
+  user        User          @relation(fields: [userId], references: [id])
+  UserVoucher UserVoucher[]
 }
 
 model ClaimVoucher {
@@ -136,17 +145,121 @@ model ClaimVoucher {
   myVoucherId     Int
 
   // Relationships
-  myVoucher MyVoucher @relation(fields: [myVoucherId], references: [id])
+  myVoucher UserVoucher @relation(fields: [myVoucherId], references: [id])
 }
 
-model MyVoucher {
-  id          Int      @id @default(autoincrement())
-  voucherId   Int
-  userId      Int
-  expiredDate DateTime
+model UserVoucher {
+  id        Int      @id @default(autoincrement())
+  voucherId Int
+  userId    Int
+  isUsed    Boolean
+  createdAt DateTime @default(now())
+  updaetdAt DateTime @updatedAt
 
-  // Relationships
-  voucher      Voucher        @relation(fields: [voucherId], references: [id])
-  user         User           @relation(fields: [userId], references: [id])
-  ClaimVoucher ClaimVoucher[]
+  voucher                Voucher                  @relation(fields: [voucherId], references: [id])
+  user                   User                     @relation(fields: [userId], references: [id])
+  TransactionUservoucher TransactionUservoucher[]
+  ClaimVoucher           ClaimVoucher[]
+}
+
+model Transaction {
+  id         Int      @id @default(autoincrement())
+  uuid       String   @unique @default(uuid())
+  userId     Int
+  eventId    Int
+  statusId   Int      @default(1)
+  qty        Int
+  paymentImg String?
+  total      Int
+  pointsUsed Int      @default(0)
+  createdAt  DateTime @default(now())
+  updaetdAt  DateTime @updatedAt
+
+  user                   User                     @relation(fields: [userId], references: [id])
+  event                  Event                    @relation(fields: [eventId], references: [id])
+  status                 Status                   @relation(fields: [statusId], references: [id])
+  TransactionUserReward  TransactionUserReward[]
+  TransactionUservoucher TransactionUservoucher[]
+  TransactionDiscount    TransactionDiscount[]
+}
+
+model Status {
+  id          Int           @id @default(autoincrement())
+  title       String
+  createdAt   DateTime      @default(now())
+  Transaction Transaction[]
+}
+
+model Reward {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String       @db.VarChar(225)
+  percentage  Int
+  max_nominal Int
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime     @default(now())
+  updaetdAt   DateTime     @updatedAt
+  UserReward  UserReward[]
+}
+
+model UserReward {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  rewardId  Int
+  isUsed    Boolean  @default(false)
+  expiredAt DateTime
+  createdAt DateTime @default(now())
+  updaetdAt DateTime @updatedAt
+
+  user                  User                    @relation(fields: [userId], references: [id])
+  reward                Reward                  @relation(fields: [rewardId], references: [id])
+  TransactionUserReward TransactionUserReward[]
+}
+
+model TransactionUserReward {
+  id            Int      @id @default(autoincrement())
+  userRewardId  Int
+  transactionId Int
+  createdAt     DateTime @default(now())
+  updaetdAt     DateTime @updatedAt
+
+  userReward  UserReward  @relation(fields: [userRewardId], references: [id])
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+}
+
+model TransactionUservoucher {
+  id            Int      @id @default(autoincrement())
+  userVoucherId Int
+  transactionId Int
+  createdAt     DateTime @default(now())
+  updaetdAt     DateTime @updatedAt
+
+  userVoucher UserVoucher @relation(fields: [userVoucherId], references: [id])
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+}
+
+model TransactionDiscount {
+  id            Int      @id @default(autoincrement())
+  discountId    Int
+  transactionId Int
+  createdAt     DateTime @default(now())
+  updaetdAt     DateTime @updatedAt
+
+  discount    Discount    @relation(fields: [discountId], references: [id])
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+}
+
+model Discount {
+  id         Int      @id @default(autoincrement())
+  percentage Int
+  startDate  DateTime
+  endDate    DateTime
+  eventId    Int
+  isActive   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updaetdAt  DateTime @updatedAt
+
+  event               Event                 @relation(fields: [eventId], references: [id])
+  TransactionDiscount TransactionDiscount[]
 }

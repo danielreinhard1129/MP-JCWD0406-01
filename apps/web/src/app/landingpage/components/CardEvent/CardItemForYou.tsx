@@ -1,3 +1,4 @@
+import Category from '@/app/eventdiscovery/components/Category';
 import { baseUrl } from '@/app/utils/database';
 import axios from 'axios';
 import { slice } from 'cypress/types/lodash';
@@ -13,7 +14,7 @@ interface ICardItems {
 
 const CardItemForYou: React.FC<ICardItems> = ({ event }) => {
   return (
-    <Link href={`/${event.id}`}>
+    <Link href={`/events/${event.id}`}>
       <div className="md:w-[300px] w-[350px] h-[400px] bg-[#d7d7d7] rounded-2xl shadow-xl">
         <div className="md:w-[300px] w-[350px] rounded-tl-2xl rounded-tr-2xl  relative h-[180px] overflow-hidden">
           <Image
@@ -45,8 +46,9 @@ const CardItemForYou: React.FC<ICardItems> = ({ event }) => {
             <text className="font-bold">Prize: Rp: {event.price}</text>
           </div>
           <div className="flex gap-2">
-            {/* <Badge className="bg-[#ffb6c1]">{event.category}</Badge> */}
-            <Badge className="bg-[#ffb6c1]">Life Style</Badge>
+            {event.Event_category?.map((value: any) => {
+              return <Category key={value.id} value={value} />;
+            })}
           </div>
           <p className="font-light mt-2 line-clamp-2">{event.description}</p>
           <Link href={'/viewdetails'}>

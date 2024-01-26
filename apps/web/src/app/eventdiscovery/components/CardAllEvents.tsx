@@ -1,18 +1,19 @@
-import Category from '@/app/eventdiscovery/components/Category';
-import { Badge, Card } from 'flowbite-react';
+import { Badge } from 'flowbite-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FiCalendar, FiMapPin } from 'react-icons/fi';
+import Category from './Category';
 
 interface ICardItems {
   event: any;
 }
 
-const CardItemPopular: React.FC<ICardItems> = ({ event }) => {
+const CardAllEvents: React.FC<ICardItems> = ({ event }) => {
+  console.log('testtttt', event);
   return (
     <Link href={`/events/${event.id}`}>
-      <div className="md:w-[300px] w-[350px] h-[400px] bg-[#d7d7d7] rounded-2xl shadow-xl">
+      <div className="md:w-[300px] w-[350px] h-[400px] bg-[#b0bfd1] rounded-2xl shadow-xl">
         <div className="md:w-[300px] w-[350px] rounded-tl-2xl rounded-tr-2xl  relative h-[180px] overflow-hidden">
           <Image
             src={'/images/herobg-min.jpg'}
@@ -21,7 +22,7 @@ const CardItemPopular: React.FC<ICardItems> = ({ event }) => {
             alt={'card event'}
           />
         </div>
-        <div className="px-2 mt-2 h-[250px]">
+        <div className="px-3 mt-2 ">
           <h1 className="font-semibold text-[19px] line-clamp-1">
             {event.title}
           </h1>
@@ -43,7 +44,8 @@ const CardItemPopular: React.FC<ICardItems> = ({ event }) => {
             <text className="font-bold">Prize: Rp: {event.price}</text>
           </div>
           <div className="flex gap-2">
-            {event.Event_category?.map((value: any) => {
+            {/* <Badge className="bg-[#ffb6c1]">{event.category}</Badge> */}
+            {event.Event_category?.slice(0, 3).map((value: any) => {
               return <Category key={value.id} value={value} />;
             })}
           </div>
@@ -59,4 +61,4 @@ const CardItemPopular: React.FC<ICardItems> = ({ event }) => {
   );
 };
 
-export default CardItemPopular;
+export default CardAllEvents;

@@ -1,17 +1,20 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Select from 'react-select';
 
-const Autocomplete = ({ data }: any) => {
+const Autocomplete = ({ event }: any) => {
   const router = useRouter();
-  const options = data.map((event: any) => {
+  const params = useParams();
+
+  const options = event.map((event: any) => {
     return { value: event.id, label: event.title };
   });
 
   const handleChange = (selectedOption: any) => {
-    if (selectedOption && selectedOption.value)
-      router.push(`${selectedOption.value}`);
+    if (selectedOption && selectedOption.value) {
+      router.push(`/events/${selectedOption.value}`);
+    }
   };
 
   return (

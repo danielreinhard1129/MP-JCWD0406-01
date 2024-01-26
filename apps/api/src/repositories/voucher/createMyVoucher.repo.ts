@@ -1,20 +1,17 @@
-import prisma from '@/prisma';
-import { IMyVoucher, IVoucher } from '@/types/voucher.type';
+// import prisma from '@/prisma';
+// import { IMyVoucher, IVoucher } from '@/types/voucher.type';
 
-export const createVoucheUserRepo = async (
-  dataVoucher : IMyVoucher
-) => {
-    try {
-      const {userId, voucherId, expiredDate} = dataVoucher
-    const result = await prisma.myVoucher.create({
-      data: {
-        userId ,
-        voucherId ,
-        expiredDate ,
-      },
-    });
-    return result;
-  } catch (error) {
-    throw error;
-  }
-};
+// export const createVoucheUserRepo = async (dataVoucher: IMyVoucher) => {
+//   try {
+//     const { userId, startDate } = dataVoucher;
+//     const result = await prisma.voucher.create({
+//       data: {
+//         userId,
+//         startDate,
+//       },
+//     });
+//     return result;
+//   } catch (error) {
+//     throw error;
+//   }
+// };

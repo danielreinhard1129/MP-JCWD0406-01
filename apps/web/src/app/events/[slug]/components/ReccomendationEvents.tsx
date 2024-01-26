@@ -2,11 +2,11 @@ import Image from 'next/image';
 import React from 'react';
 import { FiCalendar, FiMapPin } from 'react-icons/fi';
 
-const CardItemByLocationComp = () => {
+const ReccomendationEventsComp = () => {
   return (
-    <a href="/eventdetails">
-      <div className=" md:flex md:flex-wrap w-fit shadow-xl rounded-2xl bg-fix">
-        <div className="md:w-[250px] w-[350px] rounded-tl-2xl rounded-bl-2xl rounded-2xl relative h-[210px] overflow-hidden">
+    <div>
+      <div className="flex flex-wrap md:w-[300px] w-[350px] shadow-xl rounded-2xl bg-[#d7d7d7]">
+        <div className="md:w-[300px] w-[350px] rounded-tl-2xl rounded-bl-2xl relative h-[210px] overflow-hidden">
           <Image
             src={'/images/herobg-min.jpg'}
             fill
@@ -15,7 +15,7 @@ const CardItemByLocationComp = () => {
           />
         </div>
         <div className="p-2">
-          <h1 className="font-semibold text-[20px]">lorem5</h1>
+          <h1 className="font-semibold text-[20px]">Lorem, ipsum dolor.</h1>
           <p className="font-light mt-2">
             Lorem ipsum dolor sit amet consectetur .
           </p>
@@ -49,8 +49,8 @@ const CardItemByLocationComp = () => {
           </div>
         </div>
       </div>
-    </a>
+    </div>
   );
 };
 
-export default CardItemByLocationComp;
+export default ReccomendationEventsComp;

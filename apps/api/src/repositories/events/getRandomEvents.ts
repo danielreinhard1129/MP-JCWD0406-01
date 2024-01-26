@@ -5,6 +5,11 @@ export const getRandomEvents = async () => {
     const allEvents = await prisma.event.findMany({
       include: {
         location: true,
+        Event_category: {
+          include: {
+            category: true,
+          },
+        },
         user: {
           select: {
             first_name: true,

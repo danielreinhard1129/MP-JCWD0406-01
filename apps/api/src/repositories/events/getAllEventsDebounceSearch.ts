@@ -1,9 +1,8 @@
 import prisma from '@/prisma';
 
-export const getNewReleaseEvents = async () => {
+export const getAllEventsDebounce = async () => {
   try {
-    const newRelease = await prisma.event.findMany({
-      orderBy: { createdAt: 'desc' },
+    const events = await prisma.event.findMany({
       include: {
         location: true,
         Event_category: {
@@ -11,6 +10,7 @@ export const getNewReleaseEvents = async () => {
             category: true,
           },
         },
+
         user: {
           select: {
             first_name: true,
@@ -21,7 +21,7 @@ export const getNewReleaseEvents = async () => {
         },
       },
     });
-    return newRelease;
+    return events;
   } catch (error) {
     throw error;
   }

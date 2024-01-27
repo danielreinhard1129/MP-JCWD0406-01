@@ -43,7 +43,7 @@ const HeroComp = () => {
           </Carousel>
         </div>
       </div>
-      <div className=" mt-5 flex justify-between gap-2">
+      <div className=" mt-5 flex">
         <div className="gap-2">
           <div className="flex flex-wrap gap-3">
             <Badge className="bg-[#CB9489]">Category</Badge>

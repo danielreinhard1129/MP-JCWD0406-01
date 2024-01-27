@@ -1,21 +1,21 @@
 'use client';
-import { Button, TabItem, Tabs } from 'flowbite-react';
-import React, { useEffect, useState } from 'react';
-import CardItemPopular from './CardEvent/CardItemPopular';
-import CardItemThisWeekend from './CardEvent/CardItemThisWeekend';
-import CardItemNewRelease from './CardEvent/CardItemNewRelease';
-import CardItemForYou from './CardEvent/CardItemForYou';
 import { baseUrl } from '@/app/utils/database';
 import axios from 'axios';
-import { event } from 'cypress/types/jquery';
+import { Button, TabItem, Tabs } from 'flowbite-react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import CardItemForYou from './CardEvent/CardItemForYou';
+import CardItemNewRelease from './CardEvent/CardItemNewRelease';
+import CardItemPopular from './CardEvent/CardItemPopular';
 
 const EventComp = () => {
   // state for get all event
   const [allEvent, setAllEvent] = useState([]);
   const getAllEvents = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/events/all-events`);
+      const response = await axios.get(`${baseUrl}/events/debounce`);
       setAllEvent(response.data.data);
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -41,6 +41,24 @@ const EventComp = () => {
   useEffect(() => {
     getRandomEvent();
   }, []);
+
+  //state for get new release event
+  const [newReleases, setNewReleases] = useState([]);
+  const newReleaseEvent = async () => {
+    try {
+      const resNewReleaseEvents = await axios.get(
+        `${baseUrl}/events/new-release-events`,
+      );
+      setNewReleases(resNewReleaseEvents.data.data);
+      console.log('eventtttttttt', resNewReleaseEvents.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    newReleaseEvent();
+  }, []);
   return (
     <section className="pt-5 pb-5">
       <h1 className="text-4xl text-center">Events</h1>
@@ -55,43 +73,34 @@ const EventComp = () => {
         >
           <TabItem active title="Popular">
             <div className="grid md:grid-cols-4 grid-cols-1 gap-4">
-              {randomEvent.map((randomevent) => {
+              {randomEvent.slice(0, 8).map((randomevent) => {
                 return (
                   <CardItemPopular key={randomevent} event={randomevent} />
                 );
               })}
             </div>
           </TabItem>
-          <TabItem active title="This weekend">
-            <div className="grid md:grid-cols-4 grid-cols-1 gap-5">
-              <CardItemThisWeekend />
-              <CardItemThisWeekend />
-              <CardItemThisWeekend />
-              <CardItemThisWeekend />
-            </div>
-          </TabItem>
           <TabItem active title="For you">
             <div className="grid md:grid-cols-4 grid-cols-1 gap-5">
-              {allEvent.map((event) => {
+              {allEvent.slice(0, 8).map((event) => {
                 return <CardItemForYou key={event} event={event} />;
               })}
             </div>
           </TabItem>
           <TabItem active title="New release">
             <div className="grid md:grid-cols-4 grid-cols-1 gap-5">
-              <CardItemNewRelease />
-              <CardItemNewRelease />
-              <CardItemNewRelease />
-              <CardItemNewRelease />
-              <CardItemNewRelease />
-              <CardItemNewRelease />
+              {newReleases.slice(0, 8).map((newrelease) => {
+                return (
+                  <CardItemNewRelease key={newrelease} event={newrelease} />
+                );
+              })}
             </div>
           </TabItem>
         </Tabs>
       </div>
-      <div className="flex justify-center mt-5">
+      <Link href={'/eventdiscovery'} className="flex justify-center mt-5">
         <Button className="bg-[#DAAB6E]">show more</Button>
-      </div>
+      </Link>
     </section>
   );
 };

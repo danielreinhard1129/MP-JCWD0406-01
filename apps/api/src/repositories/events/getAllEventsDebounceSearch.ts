@@ -1,8 +1,8 @@
 import prisma from '@/prisma';
 
-export const getAllEvents = async (page: number, pageSize: number) => {
+export const getAllEventsDebounce = async () => {
   try {
-    const eventData = await prisma.event.findMany({
+    const events = await prisma.event.findMany({
       include: {
         location: true,
         Event_category: {
@@ -20,11 +20,8 @@ export const getAllEvents = async (page: number, pageSize: number) => {
           },
         },
       },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
     });
-
-    return eventData;
+    return events;
   } catch (error) {
     throw error;
   }

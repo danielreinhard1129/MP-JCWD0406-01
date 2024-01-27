@@ -26,7 +26,7 @@ export class UserRouter {
     // );
     // this.router.post('/claim-referall', this.userController.claimReferall);
 
-    this.router.post('/voucher', this.userController.createVoucher);
+    // this.router.post('/voucher', this.userController.createVoucher);
   }
 
   getRouter(): Router {

@@ -1,10 +1,8 @@
 import { forgotPasswordAction } from '@/actions/forgot.action';
 import { getAllUserAction } from '@/actions/getAlluser';
-import { getRolebyUserAction } from '@/actions/getRolebyUser.action';
+import { getUserbyIdAction } from '@/actions/getRolebyUser.action';
 import { keepLoginAction } from '@/actions/keeplogin.action';
 import { loginUserAction } from '@/actions/login.action';
-// import { claimCodeReferralAction } from '@/actions/referall/claimCodeReferall';
-// import { claimReferallAction } from '@/actions/referall/claimReferallUser';
 import { registerAction } from '@/actions/register.action';
 import { resetPasswordAction } from '@/actions/reset.action';
 // import { createVoucherAction } from '@/actions/voucher/createVoucher';
@@ -16,16 +14,6 @@ export class UserController {
     try {
       const result = await getAllUserAction();
       return res.status(result.status).send(result);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async getUserbyId(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.params;
-      const result = await getRolebyUserAction(Number(id));
-      return res.status(200).send(result);
     } catch (error) {
       next(error);
     }
@@ -96,4 +84,18 @@ export class UserController {
   //     next(error);
   //   }
   // }
+
+  async getUserDataAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      //   const data = req.body;
+      const result = await prisma.user.aggregate({
+        _count: {
+          username: true,
+        },
+      });
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

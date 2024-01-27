@@ -19,9 +19,6 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 const NavBarComp = () => {
   const user = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
-
-
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     dispatch(logoutAction());

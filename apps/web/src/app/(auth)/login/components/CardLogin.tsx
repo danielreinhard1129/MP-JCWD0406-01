@@ -8,7 +8,7 @@ import FormLogin from './FormLogin';
 const Login = () => {
   return (
     <section>
-      <div className="bg-primary  ">
+      <div className="bg-primary  h-screen flex  justify-center">
         <div className="relative overflow-hidden md:flex">
           <motion.div
             className="md:w-1/2 justify-center bg-white m-5 rounded-2xl "

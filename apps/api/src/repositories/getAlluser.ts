@@ -9,6 +9,12 @@ export const findAllUser = async () => {
       },
       include: {
         Role: true,
+        referrerUser: true,
+        _count: {
+          select: {
+            Event: true,
+          },
+        },
       },
     });
 

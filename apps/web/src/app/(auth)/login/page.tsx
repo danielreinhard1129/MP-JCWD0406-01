@@ -6,10 +6,11 @@ import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
 
 const LoginPage = () => {
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user);
+
   const router = useRouter();
   useEffect(() => {
-    if (user?.id) {
+    if (userId?.id) {
       router.push('/');
     }
   });

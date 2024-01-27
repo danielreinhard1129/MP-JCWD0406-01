@@ -6,6 +6,16 @@ export const findUserById = async (id: number) => {
       where: { id },
       include: {
         Role: true,
+        referrerUser: true,
+        Event: true,
+        CouponUser: true,
+        _count: {
+          select: {
+            referrerUser: true,
+            CouponUser: true,
+            Event: true,
+          },
+        },
       },
     });
 

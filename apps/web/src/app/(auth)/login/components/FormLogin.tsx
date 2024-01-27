@@ -9,6 +9,7 @@ import { baseUrl } from '@/app/utils/database';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Button, TextInput } from 'flowbite-react';
+import toast from 'react-hot-toast';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
@@ -45,7 +46,7 @@ const FormLogin = () => {
         localStorage.setItem('token', data.token);
         console.log(data.token);
 
-        alert('login succes');
+        toast.success('login succes');
         router.push('/');
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -60,7 +61,7 @@ const FormLogin = () => {
       router.push('/');
     }
     if (selector.roleId === 2) {
-      router.push('/admin');
+      router.push('/admin/dashboard');
     }
   }, [selector]);
   return (

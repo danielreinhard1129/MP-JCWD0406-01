@@ -13,6 +13,7 @@ import { UserRouter } from './routers/user.router';
 import { EventRouter } from './routers/event.router';
 
 import { RewardRouter } from './routers/reward.router';
+import { DataRouter } from './routers/data.router';
 
 export default class App {
   private app: Express;
@@ -58,8 +59,10 @@ export default class App {
     const eventRouter = new EventRouter();
     const userRouter = new UserRouter();
     const rewardRouter = new RewardRouter();
+    const dataRouter = new DataRouter();
 
     this.app.use('/api/reward', rewardRouter.getRouter());
+    this.app.use('/api/data', dataRouter.getRouter());
 
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/users', userRouter.getRouter());

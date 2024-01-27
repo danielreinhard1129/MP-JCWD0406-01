@@ -1,18 +1,12 @@
 import { findUserById } from '@/repositories/findUserById';
 
-export const getRolebyUserAction = async (id: number) => {
+export const getUserbyIdAction = async (userId: number) => {
   try {
-    const getTweet = await findUserById(id);
-    if (!getTweet) {
-      return {
-        status: 404,
-        message: 'data not found',
-      };
-    }
+    const result = await findUserById(userId);
     return {
       status: 200,
       message: 'succes get date data',
-      data: getTweet,
+      data: result,
     };
   } catch (error) {
     console.log(error);

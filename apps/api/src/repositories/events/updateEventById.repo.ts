@@ -1,10 +1,15 @@
 import prisma from '@/prisma';
 
-export const updateEventByIdRepository = async (id: number, qty: number) => {
+export const updateEventByIdRepository = async (
+  eventId: number,
+  qty: number,
+) => {
   try {
-    const result = await prisma.event.updateMany({
+    console.log('EVENT ID', eventId, qty);
+
+    const result = await prisma.event.update({
       where: {
-        id,
+        id: eventId,
       },
       data: {
         booked: {

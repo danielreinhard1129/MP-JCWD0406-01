@@ -6,6 +6,7 @@ export const findUserById = async (id: number) => {
       where: { id },
       include: {
         Role: true,
+        PointReferall: true,
         Event: true,
         CouponUser: true,
         _count: {

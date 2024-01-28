@@ -52,8 +52,6 @@ const AdminPage = (IUser: any, IData: any) => {
 
 
 
-
-
     useEffect(() => {
         if (userId) {
             getUsers()

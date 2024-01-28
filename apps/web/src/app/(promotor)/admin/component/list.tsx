@@ -13,8 +13,5 @@ export const listDasboardBar = [{
     icon: HiInbox,
     link: '/admin/transactions'
 },
-{
-    title: ' Statistics',
-    icon: HiUser,
-    link: '/admin/user'
-}]
+
+]

@@ -3,6 +3,7 @@ import { getTransactionByIdAction } from '@/actions/transaction/getTransaction.a
 import { getTransactionsByDateAction } from '@/actions/transaction/getTransactionbyDate.action';
 import { statusFailedTransactionAction } from '@/actions/transaction/statusFailedTransaction.action';
 import { statusAccTransactionAction } from '@/actions/transaction/statusTransaction.action';
+import { updateTransactionAction } from '@/actions/transaction/updateTransaction.action';
 import prisma from '@/prisma';
 import { NextFunction, Request, Response } from 'express';
 import scheduler from 'node-schedule';
@@ -134,6 +135,18 @@ export class TransactionController {
       next(error);
     }
   }
+  async updatePointTransactionController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await updateTransactionAction(req.body);
+      return res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 
   async statusFailedTransactionController(
     req: Request,
@@ -141,8 +154,12 @@ export class TransactionController {
     next: NextFunction,
   ) {
     try {
+      console.log(req.body);
+
       const result = await statusFailedTransactionAction(req.body);
-      return res.status(result.status).send(result);
+      // return res.status(result.status).send(result);
+
+      res.send('success');
     } catch (error) {
       next(error);
     }

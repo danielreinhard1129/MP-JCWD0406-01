@@ -11,12 +11,14 @@ import React, { useEffect, useState } from 'react';
 import { FaCoins } from 'react-icons/fa6';
 import DiscountPrice from './discount';
 import Link from 'next/link';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { baseUrl } from '@/app/utils/database';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
 import { IUser } from '@/type/user.type';
 import { IEvent } from '@/type/event.type';
+import toast, { Toaster } from 'react-hot-toast';
+import { Router } from 'next/router';
 
 
 const event = {
@@ -30,16 +32,21 @@ const event = {
 
 
 const PriceListComp = (IEvent: any, IUser: any) => {
+  const router = useRouter();
   const userId = useAppSelector((state) => state.user.id);
+  const param = useParams();
+  console.log(param);
   console.log(userId);
   const [points, setPoints] = useState<IUser[]>([]);
-  const [priceEvent, setPriceEvent] = useState<IEvent[]>([]);
+  console.log(points);
 
+  const [priceEvent, setPriceEvent] = useState<IEvent[]>([]);
+  console.log(priceEvent);
   const [point, setPoint] = useState(0);
   const [pointUsed, setPointUsed] = useState(0);
   const [totalPayment, setTotalPayment] = useState(0);
-  const param = useParams();
-  console.log(param);
+  const [getsPoints, setGetsPoints] = useState(0);
+  console.log(getsPoints);
 
 
   const [isUse, SetIsUse] = useState(false)
@@ -53,35 +60,26 @@ const PriceListComp = (IEvent: any, IUser: any) => {
     }
   }
 
-  console.log('data point', typeof pointUsed);
-  console.log('data price', typeof priceEvent);
+  console.log('data point', pointUsed);
+  console.log('data price', priceEvent);
 
-  const total = priceEvent
-
-
-
-  // const totalIncrement = () => {
-  //   setPointUsed(priceEvent - point)
-
-  // }
+  const total = priceEvent;
 
 
-  // console.log('price', points[0].Event[0].price);
 
   const getPoint = async () => {
     try {
       const response = await axios.get(`${baseUrl}/data/${userId}`);
       setPoints(response.data.data)
       setPriceEvent(response.data.data[0].Event[0].price)
-
-
+      // setGetsPoints(response.data.)
+      // setPoint(response.data._sum.pointEarned)
+      console.log(response.data.data);
     } catch (error) {
       console.log(error);
     }
 
   }
-  const [getsPoints, setGetsPoints] = useState(0);
-  console.log(getsPoints);
 
   const getPoints2 = async () => {
     try {
@@ -111,19 +109,42 @@ const PriceListComp = (IEvent: any, IUser: any) => {
     return <span>{formatter.format(amount)}</span>;
   };
 
+  // const [pointUpdate, setPointUpdate] = useState(false);
+  // console.log('point update', pointUpdate);
 
+  const handleSubmit = async () => {
+    try {
+      await axios.post(`${baseUrl}/transaction/point`, {
+        pointUpdateId: points[0].id,
+      });
+      toast.success(`transaction success`);
+      router.push('/');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data || error.message;
+        toast.error(errorMsg);
+      }
+    }
+  };
 
   return (
 
     <>
+      <Toaster />
       <div className="md:w-[950px] shadow-inner rounded-xl bg-[#E0DFDB]">
         <div className="flex flex-col p-4">
           <h1 className="text-[30px] font-semibold">Billed To</h1>
-          <hr className=" mt-2 mb-4 border border-dashed border-black" />
-          <text className="font-extrabold text-[20px]">John Doe</text>
-          <text>JohnDoe@gmail.com</text>
-          <text>081233367821</text>
-          <h1 className="text-[30px] font-semibold">Pricing List</h1>
+          {points.map((data) => {
+            return (
+              <div key={data.id}>
+                <hr className=" mt-2 mb-4 border border-dashed border-black" />
+                <text className="font-extrabold text-[20px]">{data.first_name}</text>
+                <text>{data.email}</text>
+                <text>{data.contact}</text>
+                <h1 className="text-[30px] font-semibold">Pricing List</h1>
+              </div>
+            )
+          })}
           <hr className=" mt-2 mb-2 border border-dashed border-black" />
           <div className="flex justify-between">
             <div>
@@ -229,11 +250,11 @@ const PriceListComp = (IEvent: any, IUser: any) => {
                 <text className="font-semibold"><NumberToIDR amount={Number(priceEvent) - pointUsed} /></text>
               </div>
             </div>
-            <Link href="/waitingpayment">
-              <button className="w-full bg-fourth shadow-2xl h-[50px] rounded-br-2xl rounded-bl-2xl">
-                Checkout
-              </button>
-            </Link>
+            {/* <Link href="/waitingpayment"> */}
+            <button className="w-full bg-fourth shadow-2xl h-[50px] rounded-br-2xl rounded-bl-2xl" onClick={handleSubmit}>
+              Checkout
+            </button>
+            {/* </Link> */}
           </div>
         </div>
       </div></>

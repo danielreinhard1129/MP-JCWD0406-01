@@ -30,6 +30,10 @@ export class TransactionRouter {
       '/failed',
       this.transactionController.statusFailedTransactionController,
     );
+    this.router.post(
+      '/point',
+      this.transactionController.updatePointTransactionController,
+    );
     this.router.get(
       '/filter/date',
       this.transactionController.getTransactionsByDateController,

@@ -30,8 +30,7 @@ export const useReferralCodeAction = async (
     };
     const dataPoints: IPointsReferral = {
       pointEarned: 10000,
-      referredUserId: userId,
-      referrerUserId: userReferral.id,
+      userId: userReferral.id,
       expiresOn: new Date(formattedDate),
     };
     await createDiscontRepo(dataDiscount);

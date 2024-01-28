@@ -9,7 +9,7 @@ import { baseUrl } from '@/app/utils/database';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import { Button, TextInput } from 'flowbite-react';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 YupPassword(yup);
 
 const validationSchema = yup.object().shape({
@@ -41,12 +41,14 @@ const FormLogin = () => {
         console.log(data);
 
         dispatch(loginAction(data.data));
+
         console.log(data.data);
 
         localStorage.setItem('token', data.token);
+        toast.success('login succes');
+
         console.log(data.token);
 
-        toast.success('login succes');
         router.push('/');
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -66,6 +68,7 @@ const FormLogin = () => {
   }, [selector]);
   return (
     <div className=" justify-center p-10 items-center">
+      <Toaster />
       <form
         className="flex  flex-w-full flex-col"
         onSubmit={formik.handleSubmit}
@@ -79,7 +82,7 @@ const FormLogin = () => {
 
         <div className="items-center border-2 py-2 px-3 rounded-2xl mb-4">
           <TextInput
-            className="pl-2 outline-none border-none"
+            className=" outline-none border-none"
             type="text"
             name="usernameOrEmail"
             onChange={formik.handleChange}
@@ -88,12 +91,12 @@ const FormLogin = () => {
             placeholder="Username or Email"
           />
           {formik.errors.usernameOrEmail && formik.touched.usernameOrEmail && (
-            <div>{formik.errors.usernameOrEmail}</div>
+            <div className='text-red-500 text-xs italic'>{formik.errors.usernameOrEmail}</div>
           )}
         </div>
         <div className=" items-center border-2 py-2 px-3 rounded-2xl mb-4">
           <TextInput
-            className="pl-2 outline-none border-none"
+            className=" outline-none border-none"
             type="password"
             name="password"
             onChange={formik.handleChange}
@@ -102,7 +105,7 @@ const FormLogin = () => {
             placeholder="Password"
           />
           {formik.errors.password && formik.touched.password && (
-            <div>{formik.errors.password}</div>
+            <div className='text-red-500 text-xs italic'>{formik.errors.password}</div>
           )}
         </div>
         <Button

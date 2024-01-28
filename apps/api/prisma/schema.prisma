@@ -70,27 +70,27 @@ model Category {
 }
 
 model User {
-  id           Int             @id @default(autoincrement())
-  first_name   String
-  last_name    String
-  username     String          @unique
-  password     String
-  email        String          @unique
-  contact      String          @default("62")
-  address      String
-  codeReferall String          @unique
-  updatedAt    DateTime        @updatedAt
-  createdAt    DateTime        @default(now())
-  isDeleted    Boolean         @default(false)
-  roleId       Int // Assuming a foreign key to Role table
-  Voucher      Voucher[]
-  UserVoucher  UserVoucher[]
-  Role         Role            @relation(fields: [roleId], references: [id])
-  Event        Event[]
-  CouponUser   CouponUser[]
-  referrerUser PointReferall[] @relation("Referrer")
-  Transaction  Transaction[]
-  UserReward   UserReward[]
+  id            Int            @id @default(autoincrement())
+  first_name    String
+  last_name     String
+  username      String         @unique
+  password      String
+  email         String         @unique
+  contact       String         @default("62")
+  address       String
+  codeReferall  String         @unique
+  updatedAt     DateTime       @updatedAt
+  createdAt     DateTime       @default(now())
+  isDeleted     Boolean        @default(false)
+  roleId        Int // Assuming a foreign key to Role table
+  Voucher       Voucher[]
+  UserVoucher   UserVoucher[]
+  Role          Role           @relation(fields: [roleId], references: [id])
+  Event         Event[]
+  CouponUser    CouponUser[]
+  Transaction   Transaction[]
+  UserReward    UserReward[]
+  PointReferall PointReferall?
 }
 
 model Role {
@@ -112,13 +112,13 @@ model CouponUser {
 }
 
 model PointReferall {
-  id             Int      @id @default(autoincrement())
-  referrerUserId Int
-  referredUserId Int      @unique
-  pointEarned    Int
-  dateEarned     DateTime @default(now())
-  expiresOn      DateTime
-  referrerUser   User     @relation("Referrer", fields: [referrerUserId], references: [id])
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  pointEarned Int
+  dateEarned  DateTime @default(now())
+  expiresOn   DateTime
+  isUsed      Boolean  @default(false)
+  User        User     @relation(fields: [userId], references: [id])
 }
 
 model Voucher {

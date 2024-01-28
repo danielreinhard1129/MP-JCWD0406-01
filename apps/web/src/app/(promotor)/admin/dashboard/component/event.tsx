@@ -1,8 +1,20 @@
-import React from 'react'
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { dataList } from '../../user/components/list'
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-const BarPage = ({ users }: any) => {
+const BarPage = ({ dataTransactions }: any) => {
+    const dataList = [
+        {
+            name: 'Perminggu',
+            Transaction: dataTransactions?.getWeek._sum.total,
+        },
+        {
+            name: 'Perbulan',
+            Transaction: dataTransactions?.getMonth._sum.total,
+        },
+        {
+            name: 'Pertahun',
+            Transaction: dataTransactions?.getYear._sum.total,
+        }
+    ];
     return (
         <div className='p-5'>
             <h4 className='text-primary text-center font-extrabold uppercase'>Grafik User</h4>
@@ -13,7 +25,6 @@ const BarPage = ({ users }: any) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="User" fill="#8884d8" />
                     <Bar dataKey="Transaction" fill="#82ca9d" />
                 </BarChart>
             </ResponsiveContainer>

@@ -13,7 +13,7 @@ export class EventRouter {
 
   private intializeRoutes(): void {
     this.router.get('/all-events', this.eventController.getAllEvent);
-    this.router.get('/:id', this.eventController.getEventByidController);
+    // this.router.get('/:id', this.eventController.getEventByidController);
 
     this.router.get('/debounce', this.eventController.getAllEventDebounce);
     this.router.get(

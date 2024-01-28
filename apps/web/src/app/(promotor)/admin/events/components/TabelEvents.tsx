@@ -1,20 +1,47 @@
 'use client'
+import { baseUrl } from '@/app/utils/database';
 import { useGetEventByid } from '@/hooks/api/useGetEventById';
+import { useAppSelector } from '@/lib/hooks';
+import { IEvent } from '@/type/event.type';
+import { IUser } from '@/type/user.type';
+import axios from 'axios';
 import { Button, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 'flowbite-react';
+import { useEffect, useState } from 'react';
 
 
 
-const TabelEvents = (IEvent: any, IUser: any) => {
-    const events = useGetEventByid();
+const TabelEvents = () => {
+    const userId = useAppSelector((state) => state.user.id);
+    console.log('data', userId);
+
+    const [events, setEvent] = useState<IEvent[]>([]);
+
+    console.log(events);
+
+    const getEvents = async () => {
+        try {
+            const response = await axios.get(`${baseUrl}/data/events/${userId}`);
+            setEvent(response.data.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        if (userId) {
+            getEvents();
+        }
+    }, [userId]);
+
     return (
         <Table hoverable>
             <TableHead className='bg-primary'>
-                <TableHeadCell>Product name</TableHeadCell>
-                <TableHeadCell>Color</TableHeadCell>
-                <TableHeadCell>username</TableHeadCell>
+                <TableHeadCell>Event Name</TableHeadCell>
+                <TableHeadCell>Description</TableHeadCell>
+                <TableHeadCell>Thumbnail</TableHeadCell>
                 <TableHeadCell>
                     <div className='grid  grid-col-2 grid-flow-col items-center'>
-                        <div>Email</div>
+                        <div>Location</div>
                         <Button color="warning">Create Event</Button>
                     </div>
                 </TableHeadCell>
@@ -29,8 +56,8 @@ const TabelEvents = (IEvent: any, IUser: any) => {
                                 {data.title}
                             </TableCell>
                             <TableCell>{data.description}</TableCell>
-                            <TableCell>{data.user.first_name}</TableCell>
-                            <TableCell>{data.user.email}</TableCell>
+                            <TableCell>{data.thumbnail}</TableCell>
+                            <TableCell>{data.location.city}</TableCell>
 
                         </TableRow>
                     )

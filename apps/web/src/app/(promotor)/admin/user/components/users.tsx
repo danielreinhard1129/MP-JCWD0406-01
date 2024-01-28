@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 'flowbite-react';
 import { useAppSelector } from '@/lib/hooks';
 import { useGetUserById } from '@/hooks/api/useGetUserById';
+import { IEvent } from '@/type/event.type';
 
 interface IUser {
     id: number;
@@ -38,28 +39,48 @@ interface IUser {
         updateAt: Date;
     }
 }
-const AllUsers = (IUser: any) => {
-    const users = useGetUserById();
+const AllUsers = () => {
+    const userId = useAppSelector((state) => state.user.id);
+    console.log('data', userId);
+
+    const [events, setEvent] = useState<IEvent[]>([]);
+
+    console.log(events);
+
+    const getEvents = async () => {
+        try {
+            const response = await axios.get(`${baseUrl}/data/events/${userId}`);
+            setEvent(response.data.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        if (userId) {
+            getEvents();
+        }
+    }, [userId]);
 
     return (
         <Table hoverable>
             <TableHead className='bg-primary'>
                 <TableHeadCell>Name</TableHeadCell>
                 <TableHeadCell>Username</TableHeadCell>
-                <TableHeadCell>Status</TableHeadCell>
+                <TableHeadCell>Referall</TableHeadCell>
                 <TableHeadCell>Email</TableHeadCell>
 
             </TableHead>
             <TableBody className="divide-y">
-                {users.map((data) => {
+                {events.map((data) => {
                     return (
                         <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800" key={data.id}>
                             <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                {data.first_name} {data.last_name}
+                                {data.user.first_name} {data.user.last_name}
                             </TableCell>
-                            <TableCell>{data.username}</TableCell>
-                            <TableCell>{data.Role.roleName}</TableCell>
-                            <TableCell>{data.email}</TableCell>
+                            <TableCell>{data.user.username}</TableCell>
+                            <TableCell>{data.user.codeReferall}</TableCell>
+                            <TableCell>{data.user.email}</TableCell>
 
                         </TableRow>
                     )

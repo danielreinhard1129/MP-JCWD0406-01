@@ -14,6 +14,7 @@ import { EventRouter } from './routers/event.router';
 
 import { RewardRouter } from './routers/reward.router';
 import { DataRouter } from './routers/data.router';
+import { TransactionRouter } from './routers/transaction.router';
 
 export default class App {
   private app: Express;
@@ -60,9 +61,11 @@ export default class App {
     const userRouter = new UserRouter();
     const rewardRouter = new RewardRouter();
     const dataRouter = new DataRouter();
+    const transactionRouter = new TransactionRouter();
 
     this.app.use('/api/reward', rewardRouter.getRouter());
     this.app.use('/api/data', dataRouter.getRouter());
+    this.app.use('/api/transaction', transactionRouter.getRouter());
 
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/users', userRouter.getRouter());

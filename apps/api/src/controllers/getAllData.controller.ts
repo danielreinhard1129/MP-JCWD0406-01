@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import prisma from '@/prisma';
 import { getUserbyIdAction } from '@/actions/getRolebyUser.action';
+import { getEventByUserAction } from '@/actions/events/eventByUser.action';
 
 export class DataController {
   async getUserData(req: Request, res: Response, next: NextFunction) {
@@ -47,6 +48,15 @@ export class DataController {
     try {
       const { id } = req.params;
       const result = await getUserbyIdAction(Number(id));
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getEventbyId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await getEventByUserAction(Number(id));
       return res.status(200).send(result);
     } catch (error) {
       next(error);

@@ -14,6 +14,21 @@ export interface IUser {
   Role: {
     roleName: string;
   };
+  Event: {
+    id: number;
+    title: string;
+    description: string;
+    locationId: number;
+    startDate: Date;
+    endDate: Date;
+    price: number;
+    limit: number;
+    booked: number;
+    thumbnail: string;
+    userId: number;
+    createdAt: Date;
+    updateAt: Date;
+  };
   referrerUser: [
     {
       id: number;
@@ -23,5 +38,6 @@ export interface IUser {
   _count: {
     Event: string;
     referrerUser: string;
+    Transaction: string;
   };
 }

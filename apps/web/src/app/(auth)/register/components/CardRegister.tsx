@@ -22,7 +22,7 @@ const CardRegister = () => {
             <FormRegister />
           </motion.div>
           <div className=" relative hidden md:flex flex-col w-1/2 justify-around items-center">
-            <div>
+            {/* <div>
               <Image
                 src="/image/BG.png"
                 width={1000}
@@ -30,12 +30,12 @@ const CardRegister = () => {
                 alt="background"
                 className="bg-cover bg-no-repeat z-10"
               />
-            </div>
+            </div> */}
             <motion.div
               variants={imageHeader}
               initial="hidden"
               animate="visible"
-              className="absolute z-50"
+              className="absolute z-50 w-[980px]"
             >
               <Image
                 src="/image/login.png"
@@ -43,7 +43,7 @@ const CardRegister = () => {
                 height={1000}
                 //   fill
                 alt="background"
-                className="w-full bg-cover"
+                className="w-full bg-cover "
               />
             </motion.div>
           </div>

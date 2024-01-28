@@ -1,20 +1,21 @@
 import prisma from '@/prisma';
 import { IUser } from '@/types/user.type';
 
-export const findAllUser = async () => {
+export const getAllTransactionRepository = async () => {
   try {
-    const user = await prisma.user.findMany({
+    const user = await prisma.transaction.findMany({
       orderBy: {
         id: 'desc',
       },
       include: {
-        Role: true,
-        // referrerUser: true,
-        _count: {
+        user: {
           select: {
-            Event: true,
+            username: true,
           },
         },
+        event: true,
+        TransactionDiscount: true,
+        status: true,
       },
     });
 

@@ -1,3 +1,8 @@
+import { getAllUserTransactionAction } from '@/actions/transaction/getAllTransaction.action';
+import { getTransactionByIdAction } from '@/actions/transaction/getTransaction.action';
+import { getTransactionsByDateAction } from '@/actions/transaction/getTransactionbyDate.action';
+import { statusFailedTransactionAction } from '@/actions/transaction/statusFailedTransaction.action';
+import { statusAccTransactionAction } from '@/actions/transaction/statusTransaction.action';
 import prisma from '@/prisma';
 import { NextFunction, Request, Response } from 'express';
 import scheduler from 'node-schedule';
@@ -85,6 +90,71 @@ export class TransactionController {
       });
 
       // buat lagi scheduler untuk 1 hari sama aja kaya yang scheduler 2 jam cmn kondisinya aja yang di bedain. kalo status id nya masih 2 update table transaction status id menjadi 5 (dibatalkan) lalu update juga table events decrement booked berdasarkan qty. SAMA AJA KAYA ATAS CMN BEDA STATUS ID YANG DIUBAH!!!
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllTransactionController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await getAllUserTransactionAction();
+      return res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getTransactionbyIdController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await getTransactionByIdAction(Number(id));
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async statusTransactionController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await statusAccTransactionAction(req.body);
+      return res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async statusFailedTransactionController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await statusFailedTransactionAction(req.body);
+      return res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getTransactionsByDateController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await getTransactionsByDateAction();
+      return res.status(result.status).send(result);
     } catch (error) {
       next(error);
     }

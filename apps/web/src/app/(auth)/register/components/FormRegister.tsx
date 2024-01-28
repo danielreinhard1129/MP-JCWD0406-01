@@ -1,10 +1,11 @@
+'use client'
 import { baseUrl } from '@/app/utils/database';
 import { useAppSelector } from '@/lib/hooks';
 import axios, { AxiosError } from 'axios';
 import { Button, Label, Select, TextInput } from 'flowbite-react';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
@@ -36,7 +37,6 @@ const FormRegister = () => {
   const selector = useAppSelector((state) => state.user)
   console.log(selector);
 
-
   const formik = useFormik({
     initialValues: {
       first_name: '',
@@ -60,6 +60,9 @@ const FormRegister = () => {
           roleId = 1;
         }
 
+        console.log('role id', roleId);
+
+
         await axios.post(`${baseUrl}/users/register`, {
           first_name: values.first_name,
           last_name: values.last_name,
@@ -82,21 +85,21 @@ const FormRegister = () => {
     },
   });
 
-  const handleReferral = async () => {
-    try {
-      if (!formik.values.codeReferall) {
-        toast.error('code referal harus diisi')
-        return
-      }
-      const data = await axios.post(`${baseUrl}/reward/check-referral`, {
-        codeReferall: formik.values.codeReferall
-      })
-      toast.success(data.data.message);
-    } catch (error: any) {
-      alert(error.response.data.message);
-    }
+  // const handleReferral = async () => {
+  //   try {
+  //     if (!formik.values.codeReferall) {
+  //       toast.error('code referal harus diisi')
+  //       return
+  //     }
+  //     const data = await axios.post(`${baseUrl}/reward/check-referral`, {
+  //       codeReferall: formik.values.codeReferall
+  //     })
+  //     toast.success(data.data.message);
+  //   } catch (error: any) {
+  //     alert(error.response.data.message);
+  //   }
 
-  }
+  // }
 
 
   useEffect(() => {
@@ -122,7 +125,7 @@ const FormRegister = () => {
           <div className=" items-center border-2 py-2 px-3 rounded-2xl mb-4">
             {' '}
             <TextInput
-              className="pl-2 outline-none border-none flex"
+              className=" outline-none border-none flex"
               type="text"
               name="first_name"
               onChange={formik.handleChange}
@@ -132,14 +135,14 @@ const FormRegister = () => {
             />
             {formik.errors.first_name && formik.touched.first_name && (
               <div>
-                <p>{formik.errors.first_name}</p>
+                <p className='text-red-500 text-xs italic'>  {formik.errors.first_name}</p>
               </div>
             )}
           </div>
           <div className=" items-center border-2 py-2 px-3 rounded-2xl mb-4">
             {' '}
             <TextInput
-              className="pl-2 outline-none border-none flex"
+              className="  outline-none border-none flex"
               type="text"
               name="last_name"
               onChange={formik.handleChange}
@@ -148,7 +151,7 @@ const FormRegister = () => {
               placeholder="Last Name"
             />
             {formik.errors.last_name && formik.touched.last_name && (
-              <div>{formik.errors.last_name}</div>
+              <div className='text-red-500 text-xs italic'>{formik.errors.last_name}</div>
             )}
           </div>
         </div>
@@ -164,14 +167,14 @@ const FormRegister = () => {
             name="contact"
           />
           {formik.errors.contact && formik.touched.contact && (
-            <div>{formik.errors.contact}</div>
+            <div className='text-red-500 text-xs italic'>{formik.errors.contact}</div>
           )}
         </div>
 
         {/* ==== */}
         <div className=" items-center border-2 py-2 px-3 rounded-2xl mb-4">
           <TextInput
-            className="pl-2 outline-none border-none flex"
+            className="  outline-none border-none flex"
             type="text"
             name="address"
             onChange={formik.handleChange}
@@ -180,13 +183,13 @@ const FormRegister = () => {
             placeholder="Address"
           />
           {formik.errors.address && formik.touched.address && (
-            <div>{formik.errors.address}</div>
+            <div className='text-red-500 text-xs italic'>{formik.errors.address}</div>
           )}
         </div>
         {/* ==== */}
         <div className="items-center border-2 py-2 px-3 rounded-2xl mb-4">
           <TextInput
-            className="pl-2 outline-none border-none flex"
+            className="  outline-none border-none flex"
             type="text"
             name="username"
             onChange={formik.handleChange}
@@ -195,13 +198,13 @@ const FormRegister = () => {
             placeholder="Username"
           />
           {formik.errors.username && formik.touched.username && (
-            <div>{formik.errors.username}</div>
+            <div className='text-red-500 text-xs italic'>{formik.errors.username}</div>
           )}
         </div>
         {/* ==== */}
         <div className="items-center border-2 py-2 px-3 rounded-2xl mb-4">
           <TextInput
-            className="pl-2 outline-none border-none flex"
+            className="  outline-none border-none flex"
             type="text"
             name="email"
             onChange={formik.handleChange}
@@ -210,13 +213,13 @@ const FormRegister = () => {
             placeholder="Email Address"
           />
           {formik.errors.email && formik.touched.email && (
-            <div>{formik.errors.email}</div>
+            <div className='text-red-500 text-xs italic'>{formik.errors.email}</div>
           )}
         </div>
         {/* ==== */}
         <div className=" items-center border-2 py-2 px-3 rounded-2xl mb-4">
           <TextInput
-            className="pl-2 outline-none border-none"
+            className="  outline-none border-none"
             type="password"
             name="password"
             onChange={formik.handleChange}
@@ -225,13 +228,13 @@ const FormRegister = () => {
             placeholder="Password"
           />
           {formik.errors.password && formik.touched.password && (
-            <div>{formik.errors.password}</div>
+            <div className='text-red-500 text-xs italic'>{formik.errors.password}</div>
           )}
         </div>
         {/* ==== */}
         <div className=" items-center border-2 py-2 px-3 rounded-2xl mb-4">
           <TextInput
-            className="pl-2 outline-none border-none"
+            className="  outline-none border-none"
             type="text"
             name="codeReferall"
             onChange={formik.handleChange}
@@ -239,7 +242,7 @@ const FormRegister = () => {
             value={formik.values.codeReferall}
             placeholder="Input your code Referall"
           />
-          <Button className=' bg-primary m-3' onClick={handleReferral}>Cek Referral Code</Button>
+          <label className=' bg-primary p-3 rounded-lg text-white'> Input Referral Code</label>
         </div>
         {/* ==== */}
         <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">

@@ -17,6 +17,7 @@ export class DataRouter {
     this.router.get('/', this.dataController.getUserData);
     this.router.get('/events', this.dataController.getEventData);
     this.router.get('/:id', this.dataController.getUserbyId);
+    this.router.get('/events/:id', this.dataController.getEventbyId);
   }
 
   getRouter(): Router {
